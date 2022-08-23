@@ -24,6 +24,8 @@ export const TableResult = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const rows = list;
 
+  console.log('order', order, orderBy);
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: TKeyOfSearchResult,

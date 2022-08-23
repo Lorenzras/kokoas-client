@@ -21,7 +21,7 @@ export function descendingComparator<T>(x: T, y: T, orderBy: keyof T) {
 
 }
 
-type Order = 'asc' | 'desc';
+
 
 export function getComparator<Key extends keyof any>(
   order: Order,

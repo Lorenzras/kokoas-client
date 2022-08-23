@@ -24,9 +24,10 @@ export const FormikProjProspectSearch = () => {
       validateOnChange={false}
 
       onReset={()=>{
-        setList([]);
-
+        initialSearch()
+          .then((res) => setList(res));
       }}
+
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(()=>{
           searchProject(values)
