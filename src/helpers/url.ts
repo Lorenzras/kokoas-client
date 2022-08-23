@@ -19,7 +19,7 @@ export const getParam = (k: KeyOfUrlParams) => {
   const origParam = window.location.hash.substring(
     window.location.hash.indexOf('?') + 1,
   );
-  //test
+  //
 
   return (new URLSearchParams(origParam)).get(k);
 };
