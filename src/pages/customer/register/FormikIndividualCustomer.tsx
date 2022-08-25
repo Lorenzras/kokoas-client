@@ -10,7 +10,8 @@ import { MemoContextProvider } from './parts/Memo/memoForm/MemoContext';
 import { FormikMemo } from './parts/Memo/memoForm/FormikMemo';
 //import { ConfirmDialog } from '../../../components/ui/dialogs/ConfirmDialog';
 import { pages } from '../../Router';
-import { useConfirmDialog, useQuery, useSnackBar } from  './../../../hooks';
+import { useConfirmDialog, useSnackBar } from  './../../../hooks';
+import { generateParams, getParam } from '../../../helpers/url';
 
 
 
@@ -20,8 +21,8 @@ export const FormikIndividualCustomer = () => {
   const { setSnackState } = useSnackBar();
   const savedCustGroupId = useRef<string>();
 
-  const recordId = useQuery().get('groupId') ?? undefined;
-  const passedProjId = useQuery().get('projId') ;
+  const recordId = getParam('custGroupId') ?? '';
+  const passedProjId = getParam('projId');
   const navigate = useNavigate();
 
 
@@ -30,8 +31,12 @@ export const FormikIndividualCustomer = () => {
       setDialogState({
         title: '次へ進む',
         content: '工事情報を登録しますか。',
-        handleYes: ()=>navigate(`${pages.projReg}?groupId=${savedCustGroupId.current}`),
-        handleNo: ()=>navigate(`${pages.custGroupEdit}?groupId=${savedCustGroupId.current}`),
+        handleYes: ()=>navigate(`${pages.projReg}?${generateParams({
+          custGroupId: savedCustGroupId.current,
+        })}`),
+        handleNo: ()=>navigate(`${pages.custGroupEdit}?${generateParams({
+          custGroupId: savedCustGroupId.current,
+        })}`),
       });
     }
   };

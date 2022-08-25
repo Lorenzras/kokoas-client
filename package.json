@@ -120,6 +120,7 @@
     "historykana": "^1.0.5",
     "img-loader": "^4.0.0",
     "immer": "^9.0.14",
+    "isnumeric": "^0.3.3",
     "jp-numerals": "^3.0.0",
     "js-crypto-random": "^1.0.4",
     "koyomi": "^0.5.1",

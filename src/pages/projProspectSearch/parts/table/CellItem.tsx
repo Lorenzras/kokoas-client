@@ -3,6 +3,7 @@ import { dateStrToJA } from '../../../../helpers/utils';
 import { pages } from '../../../Router';
 import { TKeyOfSearchResult, TSearchResult } from '../../api/searchProject';
 import { numerals } from 'jp-numerals';
+import { generateParams } from '../../../../helpers/url';
 
 export const CellItem = (
   props:
@@ -21,11 +22,22 @@ export const CellItem = (
 
   switch (cellHeader) {
     case '工事番号': return (
-      <Link to={`${pages.projEdit}?projId=${row['工事番号']}` } target="_blank" rel="noopener noreferrer">
+      <Link
+        to={`${pages.projEdit}?${generateParams({
+          projId: row['工事番号'],
+        })}` }
+        target="_blank"
+        rel="noopener noreferrer">
         {cellValue}
       </Link>);
     case '顧客番号': return (
-      <Link to={`${pages.custGroupEdit}?projId=${row['工事番号']}&groupId=${row['顧客番号']}`} target="_blank" rel="noopener noreferrer">
+      <Link
+        to={`${pages.custGroupEdit}?${generateParams({
+          projId: row['工事番号'],
+          custGroupId: row['顧客番号'],
+        })}`}
+        target="_blank"
+        rel="noopener noreferrer">
         {cellValue}
       </Link>
     );

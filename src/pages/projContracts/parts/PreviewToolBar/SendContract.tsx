@@ -8,6 +8,7 @@ import { TypeOfForm } from '../../form';
 import { useBackdrop } from '../../../../hooks/useBackdrop';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../../../Router';
+import { generateParams } from '../../../../helpers/url';
 
 
 
@@ -64,7 +65,10 @@ export const SendContract = ({
           {err.message}
           <Button
             variant='contained'
-            onClick={()=>navigate(`${pages.custGroupEdit}?groupId=${custGroupId}&projId=${projId}`)}
+            onClick={()=>navigate(`${pages.custGroupEdit}?${generateParams({
+              projId,
+              custGroupId,
+            })}`)}
           >
             顧客
           </Button>

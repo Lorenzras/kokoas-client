@@ -2,6 +2,9 @@ import { Grid } from '@mui/material';
 import { FormikTextField } from '../../../../components/ui/textfield';
 import { getFieldName } from '../../form';
 
+/**
+ * @deprecated デザイン変わった。
+ *  */
 export const DetailsInput = () => {
   return (
     <Grid container>

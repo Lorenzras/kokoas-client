@@ -1,12 +1,5 @@
-const isNumber = (n : any) => {
-  if (
-    n === null ||
-    (typeof n === 'string')
-  ) {
-    return false;
-  }
-  return !isNaN(n);
-};
+import { isNumber } from './utils';
+
 
 export function descendingComparator<T>(x: T, y: T, orderBy: keyof T) {
   const a = x[orderBy] as any;

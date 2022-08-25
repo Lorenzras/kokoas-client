@@ -10,11 +10,11 @@ import { FabSave } from '../../components/ui/fabs/FabSave';
 import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
 import { GetEmployeesParams } from '../../api/kintone/employees/GET';
 import { TypeOfProjForm, getFieldName } from './form';
-import { useQuery } from '../../hooks/useQuery';
 import { useSnackBar } from '../../hooks';
 import { ProjectShortCuts } from './parts/ProjectShortCuts';
 import { getFormDataById } from './api/getFormDataById';
 import { UneditableInfo } from '../../components/ui/information/UneditableInfo';
+import { getParam } from '../../helpers/url';
 
 
 export const FormConstruction  = () => {
@@ -36,7 +36,8 @@ export const FormConstruction  = () => {
       envelopeStatus,
     },
   } = useFormikContext<TypeOfProjForm>();
-  let passedGroupId = useQuery().get('groupId');
+  let passedGroupId = getParam('custGroupId');
+  const projIdFromURL = getParam('projId') ?? undefined;
 
   const isEditMode = window.location.href.includes('edit');
   const isAbleToSave = (status as TFormStatus) === '';
@@ -56,7 +57,7 @@ export const FormConstruction  = () => {
     }
   }, [isSubmitting]);
 
-  const projIdFromURL = useQuery().get('projId') ?? undefined;
+
   useEffect(()=>{
 
     if (projIdFromURL) {

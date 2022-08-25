@@ -1,37 +1,43 @@
-import { useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
+import { Alert, AlertTitle, Button } from '@mui/material';
+//import { useFormikContext } from 'formik';
+//import { useEffect, useState } from 'react';
 import { FormikSelectAdvanced } from '../../../../components/ui/selects/FormikSelectAdvanced';
-import { getProjEstimates } from '../../api/getProjEstimates';
-import { TypeOfForm, getFieldName } from '../../form';
-import { SelectMenu } from './SelectMenu';
+//import { getProjEstimates } from '../../api/getProjEstimates';
+import { getFieldName } from '../../form';
+//import { ItemEstimate } from './ItemEstimate';
 
 
-export const SelectProjEstimates = () => {
-  const { values: { projId } } = useFormikContext<TypeOfForm>();
-  const [options, setOptions] = useState<OptionNode[]>([]);
+export const SelectProjEstimates = ({
+  options,
+}: {
+  options: OptionNode[]
+}) => {
 
-  useEffect(()=>{
-    if (projId) {
-      getProjEstimates(projId)
-        .then((records)=>{
-          const newOptions = records.map<OptionNode>((rec)=>{
-            const { contractPrice, $id, 作成日時 } = rec;
-            return {
-              value: $id.value,
-              key: $id.value,
-              component: <SelectMenu contractPrice={contractPrice.value} dateCreated={作成日時.value} id={$id.value}/>,
-            };
-          });
+  const isWithOptions = !!options.length;
 
-          setOptions(newOptions);
-        });
-    } else {
-      setOptions([]);
-    }
-  }, [projId]);
+
 
   return (
+    <>
+      {
+      isWithOptions &&
+        <FormikSelectAdvanced label='見積もりリスト' name={getFieldName('projEstimateId') } options={options}/>
+      }
 
-    <FormikSelectAdvanced label='見積もりリスト' name={getFieldName('projEstimateId') } options={options}/>
+      {!isWithOptions &&
+        <Alert
+          severity='info'
+          action={
+            <Button size='large' color="inherit" variant="outlined">
+              見積登録
+            </Button>
+          }
+        >
+          <AlertTitle>見積は未ありません。 </AlertTitle>
+          契約を作成するのに、見積もりが必要です。右のボタンで新規登録出来ます。
+        </Alert>
+      }
+    </>
+
   );
 };
