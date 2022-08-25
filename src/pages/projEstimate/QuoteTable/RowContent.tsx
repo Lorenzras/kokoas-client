@@ -2,8 +2,7 @@
 import { Button, TableCell, TableRow } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { useEffect } from 'react';
-import { materialsLabelList } from '../constantDefinition';
-import { TypeOfForm } from '../form';
+import { TKMaterials, TypeOfForm } from '../form';
 import InputCellContent from './InputCellContent';
 
 export const RowContent = ({ taxRate, row, rowIdx, removeRow }: {
@@ -32,9 +31,8 @@ export const RowContent = ({ taxRate, row, rowIdx, removeRow }: {
     setFieldValue(`items[${rowIdx}].price`, Math.round(newPrice).toLocaleString());
 
   }, [costPrice, quantity, elemProfRate, tax]);
-
   return (<TableRow key={rowIdx}>
-    {Object.keys(row).map((rowitem, itemIdx) => {
+    {(Object.keys(row) as TKMaterials[]).map((rowitem) => {
       return (
         <TableCell
           key={`${rowitem}_header`}
@@ -43,7 +41,7 @@ export const RowContent = ({ taxRate, row, rowIdx, removeRow }: {
             verticalAlign: 'top',
           }}
         >
-          <InputCellContent name={`items[${rowIdx}][${Object.keys(materialsLabelList)[itemIdx]}]`} />
+          <InputCellContent fieldName={rowitem} rowIdx={rowIdx} />
         </TableCell>
       );
     })}

@@ -1,3 +1,5 @@
+import { TKMaterials } from './form';
+
 /**
  * 見積もりテーブルの初期値
  */
@@ -18,7 +20,7 @@ export const buzaiListInit = {
 /**
  * 見積もりテーブルのkeyリスト
  */
-export const materialsLabelList = {
+export const materialsLabelList: Record<TKMaterials, 'display' | 'pulldown' | 'pullldownAndInput' | 'input'> = {
   'number': 'display',
   'majorItem': 'pulldown',
   'middleItem': 'pulldown',
@@ -30,13 +32,30 @@ export const materialsLabelList = {
   'tax': 'pulldown',
   'unitPrice': 'display',
   'price': 'display',
-};
+} as const;
 
 /**
  * 見積もりアイテムのラベル定義
  */
 export const materialsNameList = [
   'No.', '大項目*', '中項目', '部材', '原価*', '数量*', '利益率', '単位', '税(課税 / 非課税)', '単価', '金額',
+] as const;
+
+export const materialsMap: Array<
+Record<string,
+[TKMaterials, 'display' | 'pulldown' | 'pullldownAndInput' | 'input' ]
+>> = [
+  { 'No.': ['number', 'display' ] },
+  { '大項目*': ['majorItem', 'pulldown' ] },
+  { '中項目': ['middleItem', 'pulldown' ] },
+  { '部材': ['element', 'pullldownAndInput' ] },
+  { '原価*': ['unitPrice', 'display' ] },
+  { '数量*': ['unit', 'input' ] },
+  { '単位': ['quantity', 'input' ] },
+  { '利益率': ['elemProfRate', 'pulldown' ] },
+  { '税(課税 / 非課税)': ['tax', 'pulldown' ] },
+  { '単価': ['unitPrice', 'display' ] },
+  { '金額': ['price', 'display' ] },
 ];
 
 /**

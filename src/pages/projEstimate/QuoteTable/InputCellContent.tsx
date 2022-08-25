@@ -1,17 +1,22 @@
 import { debounce, FormControl, FormHelperText, Input, MenuItem, Select, Typography } from '@mui/material';
 import { useField } from 'formik';
 import { materialsLabelList } from '../constantDefinition';
+import { TKMaterials } from '../form';
 import quotePulldown from '../helpers/quotePulldown';
 
-export type InputCellContentProps = {
-  name: string,
-  /* value: string, */
-};
 
-const InputCellContent = (props: InputCellContentProps) => {
-  const [field, meta, helpers] = useField(props);
+
+const InputCellContent = ({
+  fieldName, rowIdx,
+}: {
+  fieldName: TKMaterials,
+  rowIdx: number
+}) => {
+  const arrayFieldName = `items[${rowIdx}][${fieldName}]`;
+
+  const [field, meta, helpers] = useField(arrayFieldName);
+
   const { error, touched } = meta;
-  const chkName = field.name.split('[')[2].replace(']', '');
 
   // INPUT用onchange処理
   const changeHandlerInput
@@ -22,9 +27,9 @@ const InputCellContent = (props: InputCellContentProps) => {
      helpers.setValue(el.target.value, true);
    }, 2000);
 
- 
-  if (materialsLabelList[chkName] === 'input') {
-    return (
+  switch (materialsLabelList[fieldName]) {
+
+    case 'input': return (
       <FormControl variant="standard">
         <Input {...field} error={!!error && touched} onChange={changeHandlerInput} value={undefined} />
         {(!!error && touched) &&
@@ -33,33 +38,34 @@ const InputCellContent = (props: InputCellContentProps) => {
           </FormHelperText>}
       </FormControl>
     );
-  } else if (materialsLabelList[chkName] === 'display') {
-    return (
+
+    case 'display': return (
       <Typography variant='body2'>
         {field.value + '円'}
       </Typography>
     );
-  } else if (materialsLabelList[chkName] === 'pulldown') {
-    const output: string[] = quotePulldown(chkName);
-    return (
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size='small'>
-        <Select {...field}>
-          <MenuItem value="">
-            <em>-</em>
-          </MenuItem>
-          {output.map((item) => {
-            return (<MenuItem value={item} key={`${field.name}_${item}`}>{item}</MenuItem>);
-          })
+
+    case 'pulldown': return (() => {
+      const output: string[] = quotePulldown(fieldName);
+      return (
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size='small'>
+          <Select {...field} >
+            <MenuItem value="">
+              <em>-</em>
+            </MenuItem>
+            {output.map((item) => {
+              return (<MenuItem value={item} key={`${field.name}_${item}`}>{item}</MenuItem>);
+            })
           }
-        </Select>
-        {(!!error && touched) &&
+          </Select>
+          {(!!error && touched) &&
           <FormHelperText error={!!error && touched}>
             {error}
           </FormHelperText>}
-      </FormControl>
-    );
-  } else if (materialsLabelList[chkName] === 'pullldownAndInput') {
-    return (
+        </FormControl>
+      );
+    })();
+    case 'pullldownAndInput': return (
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <Select {...field}>
           <MenuItem value="">
@@ -71,10 +77,8 @@ const InputCellContent = (props: InputCellContentProps) => {
         </Select>
       </FormControl>
     );
+    default : return  (<div>表示エラーです</div>);
   }
-
-  /* エラー対策：default */
-  return (<div>表示エラーです</div>);
 
 };
 
