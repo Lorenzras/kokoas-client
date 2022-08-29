@@ -5,6 +5,8 @@ import { FormikInput } from '../fieldComponents/FormikInput';
 import { FormikPulldown } from '../fieldComponents/FormikPulldown';
 import { getFieldName, taxChoices, TKMaterials, unitChoices } from '../form';
 import { useCalculateRow } from '../hooks/useCalculateRow';
+import { useMaterialsOptions } from '../hooks/useMaterialOptions';
+import { TMaterialOptions } from '../hooks/useMaterials';
 
 const itemsName = getFieldName('items');
 
@@ -13,28 +15,33 @@ const getItemFieldName = (
 ) => `${itemsName}[${rowIdx}].${fieldName}`;
 
 export const RowContent = (
-  { rowIdx,
+  {
+    rowIdx,
     removeRow,
+    materialOptions,
   }: {
     rowIdx: number,
-    removeRow: (rowIdx: number) => void
+    removeRow: (rowIdx: number) => void,
+    materialOptions: TMaterialOptions,
   }) => {
 
+
   useCalculateRow(rowIdx);
+  const { majorItemOpts, middleItemOpts, materialOpts  } = useMaterialsOptions(rowIdx, materialOptions);
 
   return (
     <TableRow >
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'majorItem')} options={[]} />
+        <FormikPulldown name={getItemFieldName(rowIdx, 'majorItem')} options={majorItemOpts} />
       </TableCell>
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'middleItem')} options={[]} />
+        <FormikPulldown name={getItemFieldName(rowIdx, 'middleItem')} options={middleItemOpts} />
       </TableCell>
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'element')} options={[]} />
+        <FormikPulldown name={getItemFieldName(rowIdx, 'element')} options={materialOpts} />
       </TableCell>
 
       <TableCell>

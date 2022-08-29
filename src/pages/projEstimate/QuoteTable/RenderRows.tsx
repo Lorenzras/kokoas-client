@@ -1,6 +1,7 @@
 import { TableRow } from '@mui/material';
 import { FieldArrayRenderProps } from 'formik';
 import { TypeOfForm } from '../form';
+import { useMaterials } from '../hooks/useMaterials';
 import { RowContent } from './RowContent';
 
 export type RenderRowsProps = {
@@ -10,7 +11,7 @@ export type RenderRowsProps = {
 
 export default function RenderRows(props: RenderRowsProps) {
   const { arrayHelpers, values } = props;
-  // console.log('row values', values);
+  const { majorItems, middleItems, materials } = useMaterials();
 
   const removeRow = (rowIdx: number) => {
     arrayHelpers.remove(rowIdx);
@@ -25,6 +26,11 @@ export default function RenderRows(props: RenderRowsProps) {
               <RowContent
                 rowIdx={itemsIdx}
                 removeRow={removeRow}
+                materialOptions={{
+                  majorItems: majorItems.data ?? [],
+                  middleItems: middleItems.data ?? [],
+                  materials: materials.data ?? [],
+                }}
                 key={item.number}
               />
             );
