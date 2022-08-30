@@ -25,23 +25,41 @@ export const RowContent = (
     materialOptions: TMaterialOptions,
   }) => {
 
-
   useCalculateRow(rowIdx);
-  const { majorItemOpts, middleItemOpts, materialOpts  } = useMaterialsOptions(rowIdx, materialOptions);
+
+  const {
+    majorItemOpts,
+    middleItemOpts,
+    materialOpts,
+    handleMajorItemChange,
+    handleMiddleItemChange,
+    handleMaterialChange,
+  } = useMaterialsOptions(rowIdx, materialOptions);
+
 
   return (
     <TableRow >
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'majorItem')} options={majorItemOpts} />
+        <FormikPulldown
+          name={getItemFieldName(rowIdx, 'majorItem')}
+          handleChange={handleMajorItemChange}
+          options={majorItemOpts}
+          />
       </TableCell>
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'middleItem')} options={middleItemOpts} />
+        <FormikPulldown
+        name={getItemFieldName(rowIdx, 'middleItem')}
+        handleChange={handleMiddleItemChange}
+        options={middleItemOpts} />
       </TableCell>
 
       <TableCell>
-        <FormikPulldown name={getItemFieldName(rowIdx, 'element')} options={materialOpts} />
+        <FormikPulldown
+        name={getItemFieldName(rowIdx, 'element')}
+        handleChange={handleMaterialChange}
+        options={materialOpts} />
       </TableCell>
 
       <TableCell>
