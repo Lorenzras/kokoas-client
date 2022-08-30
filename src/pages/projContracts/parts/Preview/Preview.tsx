@@ -16,7 +16,11 @@ import { RefreshButton } from '../PreviewToolBar/RefreshButton';
 
 export const Preview = () => {
   const { values, status } = useFormikContext<TypeOfForm>();
-  const { projId, projName, envelopeId, envelopeStatus, envSelectedDoc, revision } = values;
+  const {
+    projId, projName, envelopeId,
+    envelopeStatus, envSelectedDoc,
+    revision,
+  } = values;
   const [previewUrl, setPreviewUrl] = useState('');
   const [previewLoading, setPreviewLoading] = useState(true);
   const { setSnackState } = useSnackBar();
@@ -71,55 +75,58 @@ export const Preview = () => {
   //console.log('status', status);
 
   return (
-    <OutlinedDiv label="プレビュー">
+    <Grid item xs={12} >
+      <OutlinedDiv label="プレビュー">
 
-      <Grid container justifyContent={'flex-end'} alignContent={'flex-start'} spacing={2} p={2}>
-        <Grid item xs={6}>
-          {/* <EnvelopeStatus envStatus={envelopeStatus} loading={loading} isVisible={!!projId}/> */}
-          <RefreshButton loading={loading} isVisible={!!projId}/>
-        </Grid>
-        <Grid item xs={6}>
-          <PreviewToolBar {...{ envelopeId, envelopeStatus, loading, projId, projName, previewLoading }} />
-        </Grid>
-        <Grid item xs={12}>
-          <Divider/>
-        </Grid>
-        {!loading && previewUrl &&
-          <Grid item xs={12}>
-            <Paper>
-              <DocumentsSelect />
-              <embed src={previewUrl} width="100%" height='900px' />
-
-            </Paper>
+        <Grid container justifyContent={'flex-end'} alignContent={'flex-start'} spacing={2} p={2}>
+          <Grid item xs={6}>
+            {/* <EnvelopeStatus envStatus={envelopeStatus} loading={loading} isVisible={!!projId}/> */}
+            <RefreshButton loading={loading} isVisible={!!projId}/>
           </Grid>
+          <Grid item xs={6}>
+            <PreviewToolBar {...{ envelopeId, envelopeStatus, loading, projId, projName, previewLoading }} />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider/>
+          </Grid>
+          {!loading && previewUrl &&
+            <Grid item xs={12}>
+              <Paper>
+                <DocumentsSelect />
+                <embed src={previewUrl} width="100%" height='900px' />
+
+              </Paper>
+            </Grid>
         }
 
-        {loading && projId &&
-        <Grid item xs={12}>
-          <Loading/>
-          <Typography variant="caption">
-            書類を作成しています。少々お待ちください。
-          </Typography>
+          {loading && projId &&
+            <Grid item xs={12}>
+              <Loading/>
+              <Typography variant="caption">
+                書類を作成しています。少々お待ちください。
+              </Typography>
+            </Grid>
+        }
+
+          {loading && !projId &&
+            <Grid item xs={12}>
+              <Typography variant="caption">
+                プロジェクトを選択してください。
+              </Typography>
+            </Grid>
+        }
+
+          {envelopeId &&
+            <Grid item xs={12}>
+              <Typography variant="caption">
+                Envelope Id: {envelopeId}
+              </Typography>
+            </Grid>
+        }
+
         </Grid>
-        }
+      </OutlinedDiv>
+    </Grid>
 
-        {loading && !projId &&
-        <Grid item xs={12}>
-          <Typography variant="caption">
-            プロジェクトを選択してください。
-          </Typography>
-        </Grid>
-        }
-
-        {envelopeId &&
-        <Grid item xs={12}>
-          <Typography variant="caption">
-            Envelope Id: {envelopeId}
-          </Typography>
-        </Grid>
-        }
-
-      </Grid>
-    </OutlinedDiv>
   );
 };

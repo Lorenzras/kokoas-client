@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns';
-
+import isNumeric from 'isnumeric';
 
 
 /* eslint-disable @typescript-eslint/no-implied-eval */
@@ -52,6 +52,11 @@ export const getKanaRow = (str: string) => {
 
   return '他';
 
+};
+
+export const isNumber = (n : any) => {
+
+  return isNumeric(n);
 };
 
 

@@ -2,6 +2,7 @@ import { useFormikContext } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { TypeOfForm } from '..';
 import { Shortcuts } from '../../../components/ui/speedDials/Shortcuts';
+import { generateParams } from '../../../helpers/url';
 import { pages } from '../../Router';
 
 export const ProspectShortcuts = () => {
@@ -20,15 +21,21 @@ export const ProspectShortcuts = () => {
         shortcuts={[
           {
             type: 'project',
-            handleClick: ()=>navigate(`${pages.projEdit}?projId=${projId}`),
+            handleClick: ()=>navigate(`${pages.projEdit}?${generateParams({
+              projId,
+            })}`),
           },
           {
             type: 'contract',
-            handleClick: ()=>navigate(`${pages.projContractPreview}?projId=${projId}`),
+            handleClick: ()=>navigate(`${pages.projContractPreview}?${generateParams({
+              projId,
+            })}`),
           },
           {
             type: 'custGroup',
-            handleClick: ()=>navigate(`${pages.custGroupEdit}?groupId=${custGroupId}&projId=${projId}`),
+            handleClick: ()=>navigate(`${pages.custGroupEdit}?${generateParams({
+              projId, custGroupId,
+            })}`),
           },
         ]}
 
