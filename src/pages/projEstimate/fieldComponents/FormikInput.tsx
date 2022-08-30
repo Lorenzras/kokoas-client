@@ -17,7 +17,7 @@ export const FormikInput = (
 
   return (
     <FormControl variant="standard">
-      <Input {...field} error={!!error && touched} onChange={changeHandlerInput} value={undefined} />
+      <Input {...field} error={!!error && touched} onChange={changeHandlerInput}  />
       {(!!error && touched) &&
       <FormHelperText error={!!error && touched}>
         {error}
