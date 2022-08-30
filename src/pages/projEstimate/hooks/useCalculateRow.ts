@@ -1,12 +1,8 @@
 import { useFormikContext } from 'formik';
 import { useEffect } from 'react';
-import { getFieldName, TKMaterials, TypeOfForm } from '../form';
+import { getItemFieldName, TypeOfForm } from '../form';
 
-const itemsName = getFieldName('items');
 
-const getItemFieldName = (
-  rowIdx: number, fieldName: TKMaterials,
-) => `${itemsName}[${rowIdx}].${fieldName}`;
 
 export const useCalculateRow = (rowIdx: number) => {
   const { setFieldValue, values } = useFormikContext<TypeOfForm>();

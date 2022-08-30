@@ -5,7 +5,7 @@ export const taxChoices = ['課税', '非課税'] as const;
 export const unitChoices = [
   '式', '㎡(平米)', '㎥(立米)', 'm(メートル)', 'ヶ所', '個', 'セット', '本', '枚',
   'ケース', '台', '組', '袋', '箱', 'kg', 't',
-] as const; //　更新お願いします。
+] as const;
 
 export type TMaterials = TypeOfForm['items'][0];
 export type TKMaterials = keyof TMaterials;
@@ -49,8 +49,21 @@ export const initialValues = {
 export type TypeOfForm = typeof initialValues;
 export type KeyOfForm = keyof TypeOfForm;
 
+/*
+ フィールド名取得、ヘルパー
+ */
+
 export const getFieldName = (s: KeyOfForm) => s;
 
+const itemsName = getFieldName('items');
+export const getItemFieldName = (
+  rowIdx: number, fieldName: TKMaterials,
+) => `${itemsName}[${rowIdx}].${fieldName}`;
+
+
+/*
+バリデーション
+*/
 export const validationSchema = Yup.object(
   {
     'projId': Yup

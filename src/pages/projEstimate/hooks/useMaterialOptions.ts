@@ -1,6 +1,5 @@
 import { useFormikContext } from 'formik';
-import { TypeOfForm } from '../form';
-import { getItemFieldName } from './useCalculateRow';
+import { TypeOfForm, getItemFieldName } from '../form';
 import { TMaterialOptions } from './useMaterials';
 
 
