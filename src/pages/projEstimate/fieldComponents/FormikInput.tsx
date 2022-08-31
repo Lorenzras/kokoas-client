@@ -12,7 +12,7 @@ export const FormikInput = (
    = debounce((el) => {
      console.log('2s after chk', el.target.value);
 
-     helpers.setValue(el.target.value, true);
+     helpers.setValue(+el.target.value, true);
    }, 2000);
 
   return (
