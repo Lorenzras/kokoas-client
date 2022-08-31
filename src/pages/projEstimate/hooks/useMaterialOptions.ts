@@ -1,6 +1,7 @@
 import { useFormikContext } from 'formik';
-import { TypeOfForm, getItemFieldName } from '../form';
+import { TypeOfForm, getItemFieldName, unitChoices } from '../form';
 import { TMaterialOptions } from './useMaterials';
+import { produce } from 'immer';
 
 
 
@@ -10,7 +11,7 @@ export const useMaterialsOptions = (
 ) => {
   const { majorItems, middleItems, materials } = materialsOptions;
 
-  const { values, setFieldValue } = useFormikContext<TypeOfForm>();
+  const { values, setFieldValue, setValues } = useFormikContext<TypeOfForm>();
   const { items } = values;
   const { majorItem, middleItem } = items[rowIdx];
 
@@ -19,8 +20,10 @@ export const useMaterialsOptions = (
   /* Change handlers */
 
   const handleMajorItemChange = () => {
-    setFieldValue(getItemFieldName(rowIdx, 'element'), '');
-    setFieldValue(getItemFieldName(rowIdx, 'middleItem'), '');
+    setValues((prev) => produce(prev, (draft ) => {
+      draft.items[rowIdx].element = '';
+      draft.items[rowIdx].middleItem = '';
+    }));
   };
 
   const handleMiddleItemChange = (newVal: string) => {
@@ -35,10 +38,16 @@ export const useMaterialsOptions = (
     if (newVal) {
       const selectedMaterial = materials.find(({ 部材名 })=>部材名.value === newVal);
       if (selectedMaterial) {
-        setFieldValue(getItemFieldName(rowIdx, 'majorItem'), selectedMaterial.大項目名.value);
-        setFieldValue(getItemFieldName(rowIdx, 'middleItem'), selectedMaterial.中項目名.value);
-        setFieldValue(getItemFieldName(rowIdx, 'costPrice'), selectedMaterial.原価.value);
-        setFieldValue(getItemFieldName(rowIdx, 'unit'), selectedMaterial.単位.value);
+      
+        setValues(
+          (prev) => produce(prev, (draft ) => {
+            draft.items[rowIdx].majorItem = selectedMaterial.大項目名.value;
+            draft.items[rowIdx].middleItem = selectedMaterial.中項目名.value;
+            draft.items[rowIdx].costPrice = +selectedMaterial.原価.value; 
+            draft.items[rowIdx].unit = selectedMaterial.単位.value as  typeof unitChoices[number];
+          }),
+        );
+
       }
 
     }
