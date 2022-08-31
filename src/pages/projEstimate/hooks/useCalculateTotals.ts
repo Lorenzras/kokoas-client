@@ -5,8 +5,42 @@ import { TypeOfForm } from '../form';
 export const useCalculateTotals = () => {
   const { values, setFieldValue } = useFormikContext<TypeOfForm>();
 
+  const newFields = values.items.map((val) => {
+    const totalCostPrice = +val.costPrice * +val.quantity;
+    const grossProfitVal = (totalCostPrice * (+val.elemProfRate / 100));
+    const provVal = (grossProfitVal / totalCostPrice) * 100;
+    const grossProfitMarginVal = isNaN(provVal) ? 0 : parseFloat(provVal.toFixed(2));
+    const taxExcludedAmountVal = ((+val.costPrice * +val.quantity) * (1 + (+val.elemProfRate / 100)));
+    const amountIncludingTaxVal = +val.price;
+
+    return ({
+      totalCostPrice: totalCostPrice,
+      grossProfitVal: grossProfitVal,
+      grossProfitMarginVal: grossProfitMarginVal,
+      taxExcludedAmountVal: taxExcludedAmountVal,
+      amountIncludingTaxVal: amountIncludingTaxVal,
+    });
+  }, 0);
+
+  const newValues = newFields.reduce((acc, cur) => {
+    return ({
+      totalCostPrice: acc.totalCostPrice + cur.totalCostPrice,
+      grossProfitVal: acc.grossProfitVal + cur.grossProfitVal,
+      grossProfitMarginVal: acc.grossProfitMarginVal + cur.grossProfitMarginVal,
+      taxExcludedAmountVal: acc.taxExcludedAmountVal + cur.taxExcludedAmountVal,
+      amountIncludingTaxVal: acc.amountIncludingTaxVal + cur.amountIncludingTaxVal,
+    });
+  }, {
+    totalCostPrice: 0,
+    grossProfitVal: 0,
+    grossProfitMarginVal: 0,
+    taxExcludedAmountVal: 0,
+    amountIncludingTaxVal: 0,
+  });
+
+
   // 原価合計の算出処理
-  const costPriceFields = values.items.map(({ costPrice, quantity }) => +costPrice * +quantity);
+  /* const costPriceFields = values.items.map(({ costPrice, quantity }) => +costPrice * +quantity);
   const totalCostPrice = costPriceFields.reduce((acc, cur) => {
     return acc + cur;
   }, 0);
@@ -36,21 +70,17 @@ export const useCalculateTotals = () => {
   const amountIncludingTaxFields = values.items.map(({ price })=> +price);
   const amountIncludingTaxVal = amountIncludingTaxFields.reduce((acc, cur) => {
     return acc + cur;
-  }, 0);
+  }, 0); */
 
   // 合計欄の更新処理
   useEffect(() => {
-    setFieldValue('totalCost', Math.round(totalCostPrice));
-    setFieldValue('grossProfit', Math.round(grossProfitVal));
-    setFieldValue('grossProfitMargin', grossProfitMarginVal);
-    setFieldValue('taxAmount', Math.round(amountIncludingTaxVal - taxExcludedAmountVal));
-    setFieldValue('taxExcludedAmount', Math.round(taxExcludedAmountVal));
-    setFieldValue('amountIncludingTax', Math.round(amountIncludingTaxVal));
-  }, [totalCostPrice, grossProfitVal, grossProfitMarginVal, taxExcludedAmountVal, amountIncludingTaxVal]);
+    setFieldValue('totalCost', Math.round(newValues.totalCostPrice));
+    setFieldValue('grossProfit', Math.round(newValues.grossProfitVal));
+    setFieldValue('grossProfitMargin', newValues.grossProfitMarginVal);
+    setFieldValue('taxAmount', Math.round(newValues.amountIncludingTaxVal - newValues.taxExcludedAmountVal));
+    setFieldValue('taxExcludedAmount', Math.round(newValues.taxExcludedAmountVal));
+    setFieldValue('amountIncludingTax', Math.round(newValues.amountIncludingTaxVal));
+  }, [values.items]);
 
-  /* フォームプルダウンに使用する配列の入れ物の定義 */
-  /* フォームプルダウンに使用する配列の更新処理 */
-  /* 何かをトリガにuseEffectで更新する？？ */
-
-  console.log('values', values);
+  console.log('values', newValues);
 };
