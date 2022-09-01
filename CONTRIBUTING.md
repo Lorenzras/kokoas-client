@@ -26,7 +26,7 @@
 - masterブランチから派生させる。
 - developブランチ上で直接作業したりコミットするのはNG。
 - developブランチからfeatureブランチやdocumentブランチを切る。
-- マージされたら該当のfeatureブランチは削除する。
+- マージされたら該当のfeatureやdocumentブランチは削除する。
 
 ### feature
 
