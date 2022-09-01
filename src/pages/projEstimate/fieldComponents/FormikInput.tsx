@@ -6,7 +6,6 @@ export const FormikInput = (
   { name }:
   {
     name: string,
-    type?: 'string' | 'number'
   },
 ) => {
   const [field, meta, helpers] = useField(name);
