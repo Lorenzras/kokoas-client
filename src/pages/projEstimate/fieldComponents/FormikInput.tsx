@@ -12,19 +12,19 @@ export const FormikInput = (
   const [field, meta, helpers] = useField(name);
 
   // 入力中一時的にコンポーネント内にInputのステートを管理する
-  const [inputVal, setInputVal] = useState<string>(field.value);
+  const [inputVal, setInputVal] = useState<string | null>(field.value);
   const { error, touched } = meta;
 
   const changeHandlerInput
   : React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
 
    = debounce((el: ChangeEvent<HTMLInputElement>) => {
-     const newVal = type === 'number' ? +el.target.value : el.target.value;
-     helpers.setValue(newVal, true);
-     setInputVal(''); // 本フォームのステート画面に反映させるように、リセットする。
+     field.onChange(el);
+     setInputVal(null); // 本フォームのステート画面に反映させるように、リセットする。
    }, 1000);
 
 
+  console.log(meta);
 
   return (
     <FormControl variant="standard">
@@ -32,9 +32,10 @@ export const FormikInput = (
         {...field} error={!!error && touched}
         onInput ={(el)=>{
           // 入力中コンポーネント内のInputのステートを更新
+          helpers.setTouched(true);
           setInputVal((el as ChangeEvent<HTMLInputElement>).target.value);
         }}
-        value={inputVal || field.value} // inputValは空なら、入力中ではないということなので、本フォームのfield.valueを反映させる。
+        value={inputVal === null ? field.value : inputVal} // inputValは空なら、入力中ではないということなので、本フォームのfield.valueを反映させる。
         onChange={changeHandlerInput}
         />
       {(!!error && touched) &&
