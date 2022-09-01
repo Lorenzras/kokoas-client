@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import produce from 'immer';
+import { produce } from 'immer';
 import { useEffect } from 'react';
 import { TypeOfForm } from '../form';
 
@@ -10,7 +10,7 @@ export const useCalculateRow = (rowIdx: number) => {
   const { taxRate, items } = values;
   const { costPrice, quantity, elemProfRate, tax } = items[rowIdx];
 
-  // 原価合計、粗利、税抜金額、税込金額の算出処理
+  // 合計欄：原価合計、粗利、税抜金額、税込金額の算出処理
   const newValues = values.items.reduce((acc, cur) => {
     const totalCostPrice = +cur.costPrice * +cur.quantity;
     const grossProfitVal = (totalCostPrice * (+cur.elemProfRate / 100));
@@ -29,11 +29,10 @@ export const useCalculateRow = (rowIdx: number) => {
     amountIncludingTaxVal: 0,
   });
 
-  // 粗利率の算出処理
+  // 合計欄：粗利率の算出処理
   const provVal = (newValues.grossProfitVal / newValues.totalCostPrice) * 100;
   const grossProfitMarginVal = isNaN(provVal) ? 0 : parseFloat(provVal.toFixed(2));
 
-  // 各行の単価・金額の算出処理
   useEffect(() => {
     console.log('values', values);
 
