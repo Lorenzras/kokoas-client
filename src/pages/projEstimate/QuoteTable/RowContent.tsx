@@ -38,11 +38,11 @@ export const RowContent = (
       </TableCell>
 
       <TableCell>
-        <FormikInput name={getItemFieldName(rowIdx, 'costPrice')} />
+        <FormikInput name={getItemFieldName(rowIdx, 'costPrice')} type='number' />
       </TableCell>
 
       <TableCell>
-        <FormikInput name={getItemFieldName(rowIdx, 'quantity')} />
+        <FormikInput name={getItemFieldName(rowIdx, 'quantity')} type='number' />
       </TableCell>
 
       <TableCell>
@@ -53,7 +53,7 @@ export const RowContent = (
       </TableCell>
 
       <TableCell>
-        <FormikInput name={getItemFieldName(rowIdx, 'elemProfRate')} />
+        <FormikInput name={getItemFieldName(rowIdx, 'elemProfRate')} type='number' />
       </TableCell>
 
       <TableCell>
