@@ -9,12 +9,12 @@ import { getFieldName, TypeOfForm } from './form';
 import SummaryTable from './SummaryTable/SummaryTable';
 
 import { RenderFunc } from './QuoteTable/RenderFunc';
-import { useCalculateTotals } from './hooks/useCalculateTotals';
+// import { useCalculateTotals } from './hooks/useCalculateTotals';
 
 export default function FormProjEstimate() {
   const { submitForm } = useFormikContext<TypeOfForm>();
 
-  useCalculateTotals();
+  // useCalculateTotals();
 
   return (
     <Form noValidate>

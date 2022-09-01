@@ -33,7 +33,7 @@ export const useCalculateTotals = () => {
 
   // 合計欄の更新処理
   useEffect(() => {
-    console.log('values', newValues);
+    console.log('発火チェック');
     setFieldValue('totalCost', Math.round(newValues.totalCostPrice));
     setFieldValue('grossProfit', Math.round(newValues.grossProfitVal));
     setFieldValue('grossProfitMargin', grossProfitMarginVal);
@@ -41,4 +41,6 @@ export const useCalculateTotals = () => {
     setFieldValue('taxExcludedAmount', Math.round(newValues.taxExcludedAmountVal));
     setFieldValue('amountIncludingTax', Math.round(newValues.amountIncludingTaxVal));
   }, [newValues.amountIncludingTaxVal]);
+
+  console.log('values', values);
 };
