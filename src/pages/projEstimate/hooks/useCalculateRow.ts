@@ -1,11 +1,12 @@
 import { useFormikContext } from 'formik';
+import produce from 'immer';
 import { useEffect } from 'react';
-import { getItemFieldName, TypeOfForm } from '../form';
+import { TypeOfForm } from '../form';
 
 
 
 export const useCalculateRow = (rowIdx: number) => {
-  const { setFieldValue, values, setValues } = useFormikContext<TypeOfForm>();
+  const { values, setValues } = useFormikContext<TypeOfForm>();
   const { taxRate, items } = values;
   const { costPrice, quantity, elemProfRate, tax } = items[rowIdx];
 
@@ -41,7 +42,6 @@ export const useCalculateRow = (rowIdx: number) => {
     if (!(isNaN(costPrice) || isNaN(elemProfRate)) && ((costPrice) > 0)) {
       newUnitPrice = Math.round(+costPrice * (1 + (+elemProfRate / 100)));
     }
-    setFieldValue(getItemFieldName(rowIdx, 'unitPrice'), newUnitPrice);
 
     // 金額の算出処理 : IF(原価 <= 0, 原価, IF ( 税="課税", (単価*数量) * (1 + (税率/100)), (単価*数量)))
     let newPrice = 0; // 入力値がエラー(数値でない)時は0にする
@@ -54,22 +54,18 @@ export const useCalculateRow = (rowIdx: number) => {
         newPrice = Math.round(newUnitPrice * +quantity);
       }
     }
-    setFieldValue(`items[${rowIdx}].price`, newPrice);
 
-    // 合計欄の更新処理
-    setValues((val) => ({
-      ...val,
-      totalCost: 2,
-      grossProfit: Math.round(newValues.totalCostPrice),
-      /* 要編集 */
-    }));
-    // setFieldValue('totalCost', Math.round(newValues.totalCostPrice));
-    setFieldValue('grossProfit', Math.round(newValues.grossProfitVal));
-    setFieldValue('grossProfitMargin', grossProfitMarginVal);
-    setFieldValue('taxAmount', Math.round(newValues.amountIncludingTaxVal - newValues.taxExcludedAmountVal));
-    setFieldValue('taxExcludedAmount', Math.round(newValues.taxExcludedAmountVal));
-    setFieldValue('amountIncludingTax', Math.round(newValues.amountIncludingTaxVal));
-  }, [costPrice, quantity, elemProfRate, tax, taxRate]);
-
-
+    setValues(
+      (prev) => produce(prev, (draft) => {
+        draft.items[rowIdx].unitPrice = newUnitPrice;
+        draft.items[rowIdx].price = newPrice;
+        draft.totalCost = Math.round(newValues.totalCostPrice);
+        draft.grossProfit = Math.round(newValues.grossProfitVal);
+        draft.grossProfitMargin = grossProfitMarginVal;
+        draft.taxAmount = Math.round(newValues.amountIncludingTaxVal - newValues.taxExcludedAmountVal);
+        draft.taxExcludedAmount = Math.round(newValues.taxExcludedAmountVal);
+        draft.amountIncludingTax = Math.round(newValues.amountIncludingTaxVal);
+      }),
+    );
+  }, [costPrice, quantity, elemProfRate, tax, taxRate, newValues.amountIncludingTaxVal]);
 };
