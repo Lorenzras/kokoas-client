@@ -2,10 +2,11 @@ import { FormControl, FormHelperText, MenuItem, Select } from '@mui/material';
 import { useField } from 'formik';
 
 export const FormikPulldown = (
-  { name, options } :
+  { name, options, handleChange } :
   {
     name: string,
     options: Options
+    handleChange?: (newVal?: string)=>void
   },
 ) => {
   const [field, meta] = useField(name);
@@ -13,7 +14,11 @@ export const FormikPulldown = (
 
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size='small'>
-      <Select {...field} >
+      <Select {...field} onChange={(event)=>{
+
+        if (handleChange) handleChange(event.target.value);
+        field.onChange(event);
+      }}>
         <MenuItem value="">
           <em>-</em>
         </MenuItem>

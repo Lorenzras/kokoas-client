@@ -41,12 +41,12 @@ KEstimateAppId,
     query: undefined,
   },
   middleItems: {
-    fields: ['レコード番号', '大項目', '中項目名'] as Array<keyof Estimates.middleItems.SavedData>,
+    fields: ['レコード番号', '大項目', '大項目名', '中項目名'] as Array<keyof Estimates.middleItems.SavedData>,
     query: 'レコード番号 < 10',
   },
   elements: {
 
-    fields: ['部材名', 'レコード番号', '中項目', '原価', '単位'] as Array<keyof Estimates.materials.SavedData>,
+    fields: ['部材名', 'レコード番号', '中項目', '中項目名', '大項目名', '原価', '単位'] as Array<keyof Estimates.materials.SavedData>,
     query: 'レコード番号 < 10',
   },
 };

@@ -1,5 +1,5 @@
 import { usePromise } from '../../../hooks';
-import { fetchMajorItems, fetchMiddleItems } from '../api/fetchMaterials';
+import { fetchMajorItems, fetchMaterials, fetchMiddleItems } from '../api/fetchMaterials';
 
 export type TMaterialOptions = {
   majorItems: Estimates.majorItems.SavedData[],
@@ -17,7 +17,7 @@ export type TMaterialOptions = {
 export const useMaterials  = () => {
   const majorItems = usePromise<Estimates.majorItems.SavedData[]>(fetchMajorItems);
   const middleItems = usePromise<Estimates.middleItems.SavedData[]>(fetchMiddleItems);
-  const materials = usePromise<Estimates.materials.SavedData[]>(fetchMiddleItems);
+  const materials = usePromise<Estimates.materials.SavedData[]>(fetchMaterials);
 
   const filterMiddleItems = (majorItemdName: string) => middleItems.data
     ?.filter(({ 大項目名 }) => 大項目名.value === majorItemdName  );
