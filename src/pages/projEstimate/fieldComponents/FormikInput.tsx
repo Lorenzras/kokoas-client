@@ -3,10 +3,13 @@ import { useField } from 'formik';
 import { ChangeEvent, useState } from 'react';
 
 export const FormikInput = (
-  { name }:
-  { name: string },
+  { name, type = 'string' }:
+  {
+    name: string,
+    type?: 'string' | 'number'
+  },
 ) => {
-  const [field, meta] = useField(name);
+  const [field, meta, helpers] = useField(name);
 
   // 入力中一時的にコンポーネント内にInputのステートを管理する
   const [inputVal, setInputVal] = useState<string>(field.value);
@@ -14,11 +17,14 @@ export const FormikInput = (
 
   const changeHandlerInput
   : React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
+
    = debounce((el: ChangeEvent<HTMLInputElement>) => {
-     console.log('2s after chk', el.target.value);
-     field.onChange(el); // 本フォームのステートを更新
+     const newVal = type === 'number' ? +el.target.value : el.target.value;
+     helpers.setValue(newVal, true);
      setInputVal(''); // 本フォームのステート画面に反映させるように、リセットする。
    }, 1000);
+
+
 
   return (
     <FormControl variant="standard">
@@ -32,9 +38,9 @@ export const FormikInput = (
         onChange={changeHandlerInput}
         />
       {(!!error && touched) &&
-      <FormHelperText error={!!error && touched}>
-        {error}
-      </FormHelperText>}
+        <FormHelperText error={!!error && touched}>
+          {error}
+        </FormHelperText>}
     </FormControl>
   );
 };
