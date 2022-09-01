@@ -3,7 +3,7 @@ import { useField } from 'formik';
 import { ChangeEvent, useState } from 'react';
 
 export const FormikInput = (
-  { name, type = 'string' }:
+  { name }:
   {
     name: string,
     type?: 'string' | 'number'
@@ -23,8 +23,6 @@ export const FormikInput = (
      setInputVal(null); // 本フォームのステート画面に反映させるように、リセットする。
    }, 1000);
 
-
-  console.log(meta);
 
   return (
     <FormControl variant="standard">
