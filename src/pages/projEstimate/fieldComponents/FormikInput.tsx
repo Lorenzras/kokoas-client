@@ -11,7 +11,7 @@ export const FormikInput = (
   const [field, meta, helpers] = useField(name);
 
   // 入力中一時的にコンポーネント内にInputのステートを管理する
-  const [inputVal, setInputVal] = useState<string | null>(field.value);
+  const [inputVal, setInputVal] = useState<string | null>(null);
   const { error, touched } = meta;
 
   const changeHandlerInput
