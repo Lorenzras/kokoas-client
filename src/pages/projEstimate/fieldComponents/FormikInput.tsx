@@ -29,7 +29,8 @@ export const FormikInput = (
         {...field} error={!!error && touched}
         onInput ={(el)=>{
           // 入力中コンポーネント内のInputのステートを更新
-          helpers.setTouched(true);
+          if (!touched)  helpers.setTouched(true);
+
           setInputVal((el as ChangeEvent<HTMLInputElement>).target.value);
         }}
         value={inputVal === null ? field.value : inputVal} // inputValは空なら、入力中ではないということなので、本フォームのfield.valueを反映させる。
