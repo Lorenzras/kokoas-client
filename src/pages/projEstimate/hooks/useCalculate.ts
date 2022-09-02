@@ -11,8 +11,6 @@ export const useCalculate = (rowIdx: number) => {
   const { costPrice, quantity, elemProfRate, tax, price } = items[rowIdx];
 
   useEffect(() => {
-    console.log('values', values);
-
     // 合計欄：原価合計、粗利、税抜金額、税込金額の算出処理
     const newValues = values.items.reduce((acc, cur) => {
       const totalCostPrice = +cur.costPrice * +cur.quantity;
