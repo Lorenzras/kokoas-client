@@ -8,33 +8,34 @@ import { TypeOfForm } from '../form';
 export const useCalculateRow = (rowIdx: number) => {
   const { values, setValues } = useFormikContext<TypeOfForm>();
   const { taxRate, items } = values;
-  const { costPrice, quantity, elemProfRate, tax } = items[rowIdx];
-
-  // 合計欄：原価合計、粗利、税抜金額、税込金額の算出処理
-  const newValues = values.items.reduce((acc, cur) => {
-    const totalCostPrice = +cur.costPrice * +cur.quantity;
-    const grossProfitVal = (totalCostPrice * (+cur.elemProfRate / 100));
-    const taxExcludedAmountVal = ((+cur.costPrice * +cur.quantity) * (1 + (+cur.elemProfRate / 100)));
-    const amountIncludingTaxVal = +cur.price;
-    return ({
-      totalCostPrice: acc.totalCostPrice + totalCostPrice,
-      grossProfitVal: acc.grossProfitVal + grossProfitVal,
-      taxExcludedAmountVal: acc.taxExcludedAmountVal + taxExcludedAmountVal,
-      amountIncludingTaxVal: acc.amountIncludingTaxVal + amountIncludingTaxVal,
-    });
-  }, { /* acc初期値 */
-    totalCostPrice: 0,
-    grossProfitVal: 0,
-    taxExcludedAmountVal: 0,
-    amountIncludingTaxVal: 0,
-  });
-
-  // 合計欄：粗利率の算出処理
-  const provVal = (newValues.grossProfitVal / newValues.totalCostPrice) * 100;
-  const grossProfitMarginVal = isNaN(provVal) ? 0 : parseFloat(provVal.toFixed(2));
+  const { costPrice, quantity, elemProfRate, tax, price } = items[rowIdx];
 
   useEffect(() => {
     console.log('values', values);
+
+    // 合計欄：原価合計、粗利、税抜金額、税込金額の算出処理
+    const newValues = values.items.reduce((acc, cur) => {
+      const totalCostPrice = +cur.costPrice * +cur.quantity;
+      const grossProfitVal = (totalCostPrice * (+cur.elemProfRate / 100));
+      const taxExcludedAmountVal = ((+cur.costPrice * +cur.quantity) * (1 + (+cur.elemProfRate / 100)));
+      const amountIncludingTaxVal = +cur.price;
+      return ({
+        totalCostPrice: acc.totalCostPrice + totalCostPrice,
+        grossProfitVal: acc.grossProfitVal + grossProfitVal,
+        taxExcludedAmountVal: acc.taxExcludedAmountVal + taxExcludedAmountVal,
+        amountIncludingTaxVal: acc.amountIncludingTaxVal + amountIncludingTaxVal,
+      });
+    }, { /* acc初期値 */
+      totalCostPrice: 0,
+      grossProfitVal: 0,
+      taxExcludedAmountVal: 0,
+      amountIncludingTaxVal: 0,
+    });
+
+    // 合計欄：粗利率の算出処理
+    const provVal = (newValues.grossProfitVal / newValues.totalCostPrice) * 100;
+    const grossProfitMarginVal = isNaN(provVal) ? 0 : parseFloat(provVal.toFixed(2));
+
 
     // 単価の算出処理 : IF(原価 <= 0, 0 , 原価  * ( 1 + (内訳利益率/100)))
     let newUnitPrice = 0; // 入力値がエラー(数値でない)時は0にする
@@ -66,5 +67,5 @@ export const useCalculateRow = (rowIdx: number) => {
         draft.amountIncludingTax = Math.round(newValues.amountIncludingTaxVal);
       }),
     );
-  }, [costPrice, quantity, elemProfRate, tax, taxRate, newValues.amountIncludingTaxVal]);
+  }, [costPrice, quantity, elemProfRate, tax, taxRate, price]);
 };
