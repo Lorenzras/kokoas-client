@@ -1,6 +1,7 @@
 
 import { Button, TableCell, TableRow } from '@mui/material';
 import { Display } from '../fieldComponents/Display';
+import { FormikAutocomplete } from '../fieldComponents/FormikAutocomplete';
 import { FormikInput } from '../fieldComponents/FormikInput';
 import { FormikPulldown } from '../fieldComponents/FormikPulldown';
 import { getFieldName, taxChoices, TKMaterials, unitChoices } from '../form';
@@ -56,7 +57,7 @@ export const RowContent = (
       </TableCell>
 
       <TableCell>
-        <FormikPulldown
+        <FormikAutocomplete
         name={getItemFieldName(rowIdx, 'element')}
         handleChange={handleMaterialChange}
         options={materialOpts} />
