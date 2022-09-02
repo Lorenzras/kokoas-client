@@ -5,7 +5,7 @@ import { TypeOfForm } from '../form';
 
 
 
-export const useCalculateRow = (rowIdx: number) => {
+export const useCalculate = (rowIdx: number) => {
   const { values, setValues } = useFormikContext<TypeOfForm>();
   const { taxRate, items } = values;
   const { costPrice, quantity, elemProfRate, tax, price } = items[rowIdx];

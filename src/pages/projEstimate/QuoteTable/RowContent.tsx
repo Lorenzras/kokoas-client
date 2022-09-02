@@ -4,7 +4,7 @@ import { Display } from '../fieldComponents/Display';
 import { FormikInput } from '../fieldComponents/FormikInput';
 import { FormikPulldown } from '../fieldComponents/FormikPulldown';
 import { getFieldName, taxChoices, TKMaterials, unitChoices } from '../form';
-import { useCalculateRow } from '../hooks/useCalculateRow';
+import { useCalculate } from '../hooks/useCalculate';
 import { useMaterialsOptions } from '../hooks/useMaterialOptions';
 import { TMaterialOptions } from '../hooks/useMaterials';
 
@@ -25,7 +25,7 @@ export const RowContent = (
     materialOptions: TMaterialOptions,
   }) => {
 
-  useCalculateRow(rowIdx);
+  useCalculate(rowIdx);
 
   const {
     majorItemOpts,
