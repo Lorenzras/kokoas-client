@@ -28,3 +28,11 @@ interface FormState {
   isSubmitted: boolean,
   submitState: SubmitStatus
 }
+
+interface URLParams {
+  projId?: string
+  projEstimateId?: string,
+  custGroupId?: string,
+}
+
+type KeyOfUrlParams = keyof URLParams;

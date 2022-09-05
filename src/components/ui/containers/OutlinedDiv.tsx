@@ -28,6 +28,7 @@ export const OutlinedDiv = ({
   return (
     <TextField
       size='small'
+
       disabled={disabled}
       error={!!errorMessage}
       helperText={errorMessage ?? helperText }

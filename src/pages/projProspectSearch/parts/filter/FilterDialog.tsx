@@ -1,14 +1,14 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { useEffect, useRef } from 'react';
-import { TypeOfForm } from '../../form';
+import { initialValues, TypeOfForm } from '../../form';
 import { FilterDialogContent } from './FilterDialogContent';
 
 export const FilterDialog = (props: {
   open: boolean,
   onClose: () => void,
 }) => {
-  const { submitForm, resetForm, values, setValues } = useFormikContext<TypeOfForm>();
+  const { submitForm, values, setValues } = useFormikContext<TypeOfForm>();
   const currentFormValue = useRef<TypeOfForm>(values);
   const { open, onClose } = props;
 
@@ -20,7 +20,7 @@ export const FilterDialog = (props: {
   }, [open]);
 
   const handleClear = () => {
-    resetForm();
+    setValues(initialValues);
     onClose();
   };
 

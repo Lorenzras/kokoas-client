@@ -7,7 +7,17 @@ export const initialValues = {
   projId: '',
   projEstimateId: '',
   custGroupId: '',
+
+  custName: '',
+  custAddress: '',
+  store: '',
+  cocoAg: '',
+  yumeAg: '',
+  constAg: '',
+
   projName: '',
+  projAddress: '',
+
   envelopeId: '',
   envelopeStatus: '' as TEnvelopeStatus,
   envDocFileKeys: [] as kintone.fieldTypes.File['value'],
@@ -15,10 +25,8 @@ export const initialValues = {
   revision: '',
   signMethod: '' as TSignMethod,
 
-  //InputFields
   contractPrice: 0,
 
-  //dsEnvIdUkeoi : '',
 };
 
 export type TypeOfForm =  typeof initialValues;

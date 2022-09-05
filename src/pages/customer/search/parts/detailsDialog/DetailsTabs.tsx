@@ -8,6 +8,7 @@ import { getCustGroup } from '../../../../../api/kintone/custgroups/GET';
 import { ButtonEdit } from './ButtonEdit';
 import { getConstRecordByIds } from '../../../../../api/kintone/construction/GET';
 import { pages } from '../../../../Router';
+import { generateParams } from '../../../../../helpers/url';
 
 export function DetailsTabs(props : {
   custGroupId?: string,
@@ -65,7 +66,9 @@ export function DetailsTabs(props : {
         </Box>
         <TabPanel value="1">
           <DTCustomer {...{ record, loading }} />
-          <ButtonEdit link={`${pages.custGroupEdit}?groupId=${custGroupId}`}/>
+          <ButtonEdit link={`${pages.custGroupEdit}?${generateParams({
+            custGroupId,
+          })}`}/>
         </TabPanel>
         <TabPanel value="2">
           {
