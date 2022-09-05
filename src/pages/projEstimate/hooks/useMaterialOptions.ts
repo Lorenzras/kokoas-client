@@ -39,8 +39,7 @@ export const useMaterialsOptions = (
       const selectedMaterial = materials.find(({ 部材名 }) => 部材名.value === newVal);
       if (selectedMaterial) {
 
-        const newUnit = selectedMaterial.単位.value === null ? ''
-          : selectedMaterial.単位.value as typeof unitChoices[number];
+        const newUnit = (selectedMaterial?.単位?.value ?? '') as typeof unitChoices[number];
 
         setValues(
           (prev) => produce(prev, (draft) => {
