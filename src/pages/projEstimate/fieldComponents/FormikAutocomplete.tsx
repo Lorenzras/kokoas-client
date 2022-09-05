@@ -1,6 +1,7 @@
 import { debounce, FormControl, FormHelperText, TextField } from '@mui/material';
 import { useField } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useCallback } from 'react';
 
 export const FormikAutocomplete = (
   { name, options, handleChange }:
@@ -13,6 +14,12 @@ export const FormikAutocomplete = (
   const [field, meta, helpers] = useField(name);
   const { touched, error } = meta;
 
+  const handleInputChange = useCallback(
+    debounce((event, value) => {
+      if (handleChange) handleChange(value);
+      helpers.setValue(value);
+    }, 1000), [JSON.stringify(options)]);
+
   return (
     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size='small'>
       <Autocomplete {...field}
@@ -24,12 +31,7 @@ export const FormikAutocomplete = (
             variant="standard"
           />
         }
-        onInputChange={
-          debounce((event, value) => {
-            if (handleChange) handleChange(value);
-            helpers.setValue(value);
-          }, 1000)
-        }
+        onInputChange={handleInputChange}
       />
       {(!!error && touched) &&
         <FormHelperText error={!!error && touched}>

@@ -75,13 +75,8 @@ export const useMaterialsOptions = (
   }, [] as Options);
 
   const materialOpts = materials.reduce((accu, { 大項目名, 中項目名, 部材名 }) => {
-    // console.log('大項目名?.value', 大項目名?.value);
-    if (majorItem && 大項目名?.value === majorItem) {
-      accu.push({
-        label: 部材名?.value,
-        value: 部材名?.value,
-      });
-    } else if (!majorItem && (!middleItem || 中項目名?.value === middleItem)) {
+    if ((majorItem && 大項目名?.value === majorItem) ||
+      (!majorItem && (!middleItem || 中項目名?.value === middleItem))) {
       accu.push({
         label: 部材名?.value,
         value: 部材名?.value,
