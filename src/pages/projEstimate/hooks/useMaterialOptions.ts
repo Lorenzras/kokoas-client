@@ -40,7 +40,7 @@ export const useMaterialsOptions = (
       if (selectedMaterial) {
 
         const newUnit = selectedMaterial.単位.value === null ? ''
-          : selectedMaterial.単位.value as typeof unitChoices[number] | '';
+          : selectedMaterial.単位.value as typeof unitChoices[number];
 
         setValues(
           (prev) => produce(prev, (draft) => {
