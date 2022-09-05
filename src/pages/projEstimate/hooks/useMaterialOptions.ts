@@ -39,12 +39,15 @@ export const useMaterialsOptions = (
       const selectedMaterial = materials.find(({ 部材名 }) => 部材名.value === newVal);
       if (selectedMaterial) {
 
+        const newUnit = selectedMaterial.単位.value === null ? ''
+          : selectedMaterial.単位.value as typeof unitChoices[number] | '';
+
         setValues(
           (prev) => produce(prev, (draft) => {
             draft.items[rowIdx].majorItem = selectedMaterial.大項目名.value;
             draft.items[rowIdx].middleItem = selectedMaterial.中項目名.value;
             draft.items[rowIdx].costPrice = +selectedMaterial.原価.value;
-            draft.items[rowIdx].unit = selectedMaterial.単位.value as typeof unitChoices[number];
+            draft.items[rowIdx].unit = newUnit;
           }),
         );
 
