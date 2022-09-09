@@ -16,7 +16,7 @@ import { FormActions } from './fieldComponents/formActions';
 
 export default function FormProjEstimate() {
   const { values } = useFormikContext<TypeOfForm>();
-  const { projName } = values;
+  const { projName, projId, customerName } = values;
 
   const { isLoading } = useUpdateProjectId();
 
@@ -29,14 +29,19 @@ export default function FormProjEstimate() {
 
         <Grid item xs={12} md={4}>
 
-          {/* 工事情報の検索 */}
-          <FormikSearchProjField
-            label='工事情報の検索'
-            name={getFieldName('projId')}
-            projName={projName}
-            isLoading={isLoading}
-            disabled={isLoading}
-          />
+           {/* 工事情報の検索 */}
+           <Stack spacing={1}>
+              <FormikSearchProjField
+              label='工事情報の検索'
+              name={getFieldName('projId')}
+              projName={projName}
+              isLoading={isLoading}
+              disabled={isLoading}
+            />
+              {!!projId && !customerName &&
+                <NoCustomerWarning projId={projId} />
+              }
+            </Stack>
 
         </Grid>
 
