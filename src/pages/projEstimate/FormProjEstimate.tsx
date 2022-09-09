@@ -27,21 +27,22 @@ export default function FormProjEstimate() {
       <MainContainer>
         <PageTitle label='見積もり登録' />
 
-        <Grid container item xl={8} spacing={2} mb={12}>
+        <Grid container item xl={8}
+          spacing={2} mb={12}
+        >
           <Grid item xs={12} md={5}>
 
             {/* 工事情報の検索 */}
             <Stack spacing={1}>
               <FormikSearchProjField
-              label='工事情報の検索'
-              name={getFieldName('projId')}
-              projName={projName}
-              isLoading={isLoading}
-              disabled={isLoading}
-            />
+                label='工事情報の検索'
+                name={getFieldName('projId')}
+                projName={projName}
+                isLoading={isLoading}
+                disabled={isLoading}
+              />
               {!!projId && !customerName &&
-                <NoCustomerWarning projId={projId} />
-              }
+                <NoCustomerWarning projId={projId} />}
             </Stack>
           </Grid>
 
@@ -58,7 +59,9 @@ export default function FormProjEstimate() {
           <Grid item xs={12} md={3}>
             <FormikTextField name={getFieldName('taxRate')} label="税率" />
           </Grid>
-          <Grid item md={3} />
+          <Grid item xs={12} md={3}>
+            {/* ステータスフィールドを追加します。 */}
+          </Grid>
 
           <Grid item xs={12} md={12}>
             {/* 合計欄テーブル */}
