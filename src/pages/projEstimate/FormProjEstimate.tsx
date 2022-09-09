@@ -12,7 +12,7 @@ import { RenderFunc } from './QuoteTable/RenderFunc';
 import { SubTotalTable } from './SubTotalTable/SubTotalTable';
 import { useUpdateProjectId } from './hooks/useUpdateProjectId';
 import { SearchProject } from './fieldComponents/SearchProject';
-// import { useCalculateTotals } from './hooks/useCalculateTotals';
+
 
 export default function FormProjEstimate() {
   const { submitForm, values } = useFormikContext<TypeOfForm>();
