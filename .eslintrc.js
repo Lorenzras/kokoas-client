@@ -4,6 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
+    "plugin:react-hooks/recommended",
     'plugin:react/recommended',
     'plugin:import/recommended',
     'airbnb-typescript',
@@ -23,7 +24,6 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
-    'plugin:react-hooks/recommended'
   ],
   rules: {
     "react/jsx-uses-react": "error",
