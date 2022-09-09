@@ -25,12 +25,11 @@ export const FormikAutocomplete = (
       <Autocomplete {...field}
         freeSolo
         options={options.map(({ value }) => value)}
-        renderInput={(params) =>
+        renderInput={(params) =>(
           <TextField {...params}
             type="search"
             variant="standard"
-          />
-        }
+          />)}
         onInputChange={handleInputChange}
       />
       {(!!error && touched) &&

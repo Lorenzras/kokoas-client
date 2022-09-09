@@ -46,21 +46,23 @@ export const RowContent = (
           name={getItemFieldName(rowIdx, 'majorItem')}
           handleChange={handleMajorItemChange}
           options={majorItemOpts}
-          />
+        />
       </TableCell>
 
       <TableCell>
         <FormikPulldown
-        name={getItemFieldName(rowIdx, 'middleItem')}
-        handleChange={handleMiddleItemChange}
-        options={middleItemOpts} />
+          name={getItemFieldName(rowIdx, 'middleItem')}
+          handleChange={handleMiddleItemChange}
+          options={middleItemOpts}
+        />
       </TableCell>
 
       <TableCell>
         <FormikAutocomplete
-        name={getItemFieldName(rowIdx, 'element')}
-        handleChange={handleMaterialChange}
-        options={materialOpts} />
+          name={getItemFieldName(rowIdx, 'element')}
+          handleChange={handleMaterialChange}
+          options={materialOpts}
+        />
       </TableCell>
 
       <TableCell>

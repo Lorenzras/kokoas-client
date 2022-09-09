@@ -62,7 +62,7 @@ export const useUpdateProjectId = () => {
         draft.customerName = initialValues.customerName;
       }));
     }
-  },  [projId]);
+  },  [projId, dirty]);
 
   return {
     isLoading: loading,

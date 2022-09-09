@@ -5,7 +5,7 @@ import { FieldArrayRenderProps, FormikProps } from 'formik';
 import { TypeOfForm } from '../form';
 
 export const RenderFunc = (arrayHelpers: FieldArrayRenderProps) => {
-  const { form } = arrayHelpers;
+  const { form, push } = arrayHelpers;
   const { values } = form as FormikProps<TypeOfForm>;
 
   // console.log('renderFunc', values);
@@ -26,7 +26,7 @@ export const RenderFunc = (arrayHelpers: FieldArrayRenderProps) => {
       </div>
       <Button
         variant="outlined"
-        onClick={() => arrayHelpers.push({
+        onClick={() => push({
           ...buzaiListInit,
           number: newNumber(),
         })}

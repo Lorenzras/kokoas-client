@@ -11,14 +11,14 @@ import { materialsNameList } from '../constantDefinition';
 import { FieldArrayRenderProps } from 'formik';
 
 export type QuoteTableProps = {
-  arrayHelpers: FieldArrayRenderProps, 
+  arrayHelpers: FieldArrayRenderProps,
   values: TypeOfForm,
 };
 
 /**
  * 見積もりテーブルを作成する
- * @param arrayHelpers 
- * @returns 
+ * @param arrayHelpers
+ * @returns
  */
 export default function QuoteTable(props : QuoteTableProps) {
   const { arrayHelpers, values } = props;
@@ -29,7 +29,11 @@ export default function QuoteTable(props : QuoteTableProps) {
         <TableHead>
           <TableRow>
             {materialsNameList.map((item)=>{
-              return (<TableCell key={`${item}_header`}>{item}</TableCell>);
+              return (
+                <TableCell key={`${item}_header`}>
+                  {item}
+                </TableCell>
+              );
             })}
           </TableRow>
         </TableHead>

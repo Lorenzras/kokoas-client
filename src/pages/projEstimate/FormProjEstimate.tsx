@@ -1,4 +1,4 @@
-import { Divider, Grid, Stack } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
 import { FieldArray, Form, useFormikContext } from 'formik';
 import { MainContainer } from '../../components/ui/containers';
 import { PageTitle } from '../../components/ui/labels';
@@ -10,9 +10,8 @@ import SummaryTable from './SummaryTable/SummaryTable';
 import { RenderFunc } from './QuoteTable/RenderFunc';
 import { SubTotalTable } from './SubTotalTable/SubTotalTable';
 import { useUpdateProjectId } from './hooks/useUpdateProjectId';
-import { NoCustomerWarning } from './fieldComponents/NoCustomerWarning';
-import { FormikSearchProjField } from '../../components/ui/textfield/FormikSearchProjField';
 import { FormActions } from './fieldComponents/formActions';
+import { SearchProject } from './fieldComponents/SearchProject';
 
 export default function FormProjEstimate() {
   const { values } = useFormikContext<TypeOfForm>();
@@ -29,19 +28,13 @@ export default function FormProjEstimate() {
 
         <Grid item xs={12} md={4}>
 
-           {/* 工事情報の検索 */}
-           <Stack spacing={1}>
-              <FormikSearchProjField
-              label='工事情報の検索'
-              name={getFieldName('projId')}
-              projName={projName}
-              isLoading={isLoading}
-              disabled={isLoading}
-            />
-              {!!projId && !customerName &&
-                <NoCustomerWarning projId={projId} />
-              }
-            </Stack>
+          {/* 工事情報の検索 */}
+          <SearchProject
+            customerName={customerName}
+            projId={projId}
+            isLoading={isLoading}
+            projName={projName}
+          />
 
         </Grid>
 

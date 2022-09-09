@@ -12,7 +12,9 @@ export default function SummaryTable() {
           <TableRow>
             {summaryNameList.map((item) => {
               return (<TableCell key={`${item}_header`}>
-                <Typography variant="subtitle2" gutterBottom>{item}</Typography>
+                <Typography variant="subtitle2" gutterBottom>
+                  {item}
+                </Typography>
               </TableCell>);
             })}
           </TableRow>
@@ -21,7 +23,7 @@ export default function SummaryTable() {
           <TableRow>
             {/* {(['costPrice'] as TKMaterials[]).map((item)=>item)} */}
             {/* {Object.keys(initialValues.items).map((item) => { */}
-            {(['totalCost', 'grossProfit', 'grossProfitMargin', 
+            {(['totalCost', 'grossProfit', 'grossProfitMargin',
               'taxAmount', 'taxExcludedAmount', 'amountIncludingTax'] as KeyOfForm[])
               .map((item)=> {
                 return (

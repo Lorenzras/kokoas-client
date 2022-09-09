@@ -18,14 +18,18 @@ export const FormikPulldown = (
 
         if (handleChange) handleChange(event.target.value);
         field.onChange(event);
-      }}>
+      }}
+      >
         <MenuItem value="">
-          <em>-</em>
+          <em>
+            -
+          </em>
         </MenuItem>
         {options.map(({ label, value }) => {
-          return (<MenuItem value={value} key={value}>{label}</MenuItem>);
-        })
-          }
+          return (<MenuItem value={value} key={value}>
+            {label}
+          </MenuItem>);
+        })}
       </Select>
       {(!!error && touched) &&
       <FormHelperText error={!!error && touched}>
