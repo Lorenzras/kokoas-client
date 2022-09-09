@@ -53,6 +53,7 @@ export default function FormProjEstimate() {
           <FormikTextField name={getFieldName('taxRate')} label="税率" />
         </Grid>
         <Grid item md={3} />
+        {/* ここを変更する */}
 
         <Grid item xs={12} md={12}>
           {/* 合計欄テーブル */}
