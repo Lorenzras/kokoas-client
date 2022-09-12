@@ -11,11 +11,10 @@ export type TMaterials = TypeOfForm['items'][0];
 export type TKMaterials = keyof TMaterials;
 
 export const initialValues = {
-  estimateId: '',
   projId: '',
   projName: '',
   customerName: '',
-  projType: '', /* 工事種別(ルックアップ) */
+  constructionType: '', /* 工事種別(ルックアップ) */
   profitRate: 0.5, /* 利益率(自動計算) */
   taxRate: 10, /* 税率 */
 
