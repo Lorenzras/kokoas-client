@@ -12,7 +12,8 @@ export const Display = ({
 
   return (
     <Typography variant='body2'>
-      {field.value}{suffix}
+      {field.value}
+      {suffix}
     </Typography>
   );
 };

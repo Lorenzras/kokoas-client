@@ -29,7 +29,9 @@ export default function QuoteTable(props : QuoteTableProps) {
         <TableHead>
           <TableRow>
             {materialsNameList.map((item)=>{
-              return (<TableCell key={`${item}_header`}>{item}</TableCell>);
+              return (<TableCell key={`${item}_header`}>
+                {item}
+              </TableCell>);
             })}
           </TableRow>
         </TableHead>

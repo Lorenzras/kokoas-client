@@ -1,22 +1,16 @@
 import { TableCell, TableRow } from '@mui/material';
 
-export const SubTotalRow = ({
-  majorItem,
-  value,
-}: {
-  majorItem: string,
-  value: number
-}) => {
+const SubTotalHead = () => {
   return (
     <TableRow>
       <TableCell>
-        {majorItem}
+        大項目
       </TableCell>
       <TableCell align='right'>
-        {value.toLocaleString()}
-        {' '}
-        円
+        大項目小計
       </TableCell>
     </TableRow>
   );
 };
+
+export default SubTotalHead;

@@ -43,9 +43,6 @@ export const initialValues = {
   taxAmount: 0, /* 税(円) */
   taxExcludedAmount: 0, /* 税抜金額 */
   amountIncludingTax: 0, /* 税込金額 */
-  /* 大項目ごとの小計 */
-  majorItemName: '', /* 大項目 */
-  itemSubtotal: 0, /* 大項目小計 */
 };
 
 export type TypeOfForm = typeof initialValues;

@@ -21,15 +21,16 @@ export const useUpdateProjectId = () => {
           constructionName, constructionType,
           custGroupId,
         }) => {
+
           const [
-            { members },
+            custGroup,
             { profitRate },
           ] = await Promise.all([
-            getCustGroup(custGroupId.value),
+            custGroupId?.value ? getCustGroup(custGroupId.value) : undefined,
             getProjTypeByLabel(constructionType.value),
           ]);
 
-          const mainCustName = members.value[0].value.customerName.value;
+          const mainCustName = custGroup?.members?.value[0].value.customerName.value ?? '';
 
           // Throttle speed to avoid request spam.
           setTimeout(()=> {
@@ -47,8 +48,9 @@ export const useUpdateProjectId = () => {
           setSnackState({
             open: true,
             severity: 'error',
-            message: `レコード取得が失敗しました。管理者をご連絡ください。useUpdateProjectId ${err.message}`,
+            message: `レコード取得が失敗しました。管理者にご連絡ください。useUpdateProjectId ${err.message}`,
           });
+          setLoading(false);
         });
 
     } else if (!projId && dirty) {

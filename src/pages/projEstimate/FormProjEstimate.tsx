@@ -10,12 +10,12 @@ import SummaryTable from './SummaryTable/SummaryTable';
 import { RenderFunc } from './QuoteTable/RenderFunc';
 import { SubTotalTable } from './SubTotalTable/SubTotalTable';
 import { useUpdateProjectId } from './hooks/useUpdateProjectId';
-import { FormikSearchProjField } from '../../components/ui/textfield/FormikSearchProjField';
-import { FormActions } from './fieldComponents/formActions';
+import { SearchProject } from './fieldComponents/SearchProject';
+
 
 export default function FormProjEstimate() {
-  const { values } = useFormikContext<TypeOfForm>();
-  const { projName } = values;
+  const { submitForm, values } = useFormikContext<TypeOfForm>();
+  const { projName, customerName, projId } = values;
 
   const { isLoading } = useUpdateProjectId();
 
@@ -25,18 +25,10 @@ export default function FormProjEstimate() {
       <MainContainer>
         <PageTitle label='見積もり登録' />
 
-
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={5}>
 
           {/* 工事情報の検索 */}
-          <FormikSearchProjField
-            label='工事情報の検索'
-            name={getFieldName('projId')}
-            projName={projName}
-            isLoading={isLoading}
-            disabled={isLoading}
-          />
-
+          <SearchProject {...{ customerName, projId, isLoading, projName }} />
         </Grid>
 
         <Grid item xs={12}>
@@ -44,7 +36,7 @@ export default function FormProjEstimate() {
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <FormikTextField name={getFieldName('projType')} label="工事種別名" disabled />
+          <FormikTextField name={getFieldName('constructionType')} label="工事種別名" disabled />
         </Grid>
         <Grid item xs={12} md={3}>
           <FormikTextField name={getFieldName('profitRate')} label="利益率" disabled />
@@ -53,7 +45,6 @@ export default function FormProjEstimate() {
           <FormikTextField name={getFieldName('taxRate')} label="税率" />
         </Grid>
         <Grid item md={3} />
-        {/* ここを変更する */}
 
         <Grid item xs={12} md={12}>
           {/* 合計欄テーブル */}
@@ -75,7 +66,7 @@ export default function FormProjEstimate() {
 
 
 
-        <FormActions />
+        <FabSave onClick={submitForm} />
       </MainContainer>
     </Form>
   );
