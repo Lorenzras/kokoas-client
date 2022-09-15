@@ -1,20 +1,20 @@
-import { isNumber } from './utils';
+import { isNumber } from 'lodash';
 
 
 export function descendingComparator<T>(x: T, y: T, orderBy: keyof T) {
-  const a = x[orderBy] as any;
-  const b = y[orderBy] as any;
+  const a = x[orderBy];
+  const b = y[orderBy];
 
-  if (!isNumber(a[orderBy]) || !isNumber(b[orderBy]) ) {
+  if (!isNumber(a) || !isNumber(b) ) {
 
-    if (a === '' || a === null) return -1;
-    if (b === '' || b === null) return 1;
+    if (!a) return -1;
+    if (!b) return 1;
     if (a === b) return 0;
 
     return (b < a) ? -1 : 1;
 
   } else {
-    return (b as any) - (a as any);
+    return (b) - (a);
   }
 
 

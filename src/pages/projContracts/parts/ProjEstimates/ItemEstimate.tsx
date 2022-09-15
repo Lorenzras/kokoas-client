@@ -2,7 +2,8 @@ import { Divider, Stack, Typography } from '@mui/material';
 import { numerals } from 'jp-numerals';
 
 import { ComponentProps } from 'react';
-import { dateStrToJA, isNumber } from '../../../../helpers/utils';
+import { dateStrToJA } from '../../../../helpers/utils';
+import { isNumber } from 'lodash';
 
 export const ItemEstimate = ({
   dateCreated,

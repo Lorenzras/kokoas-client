@@ -4,10 +4,12 @@ module.exports = {
     es2021: true,
   },
   extends: [
-
+    "plugin:react-hooks/recommended",
     'plugin:react/recommended',
-    "plugin:import/recommended",
+    'plugin:import/recommended',
     'airbnb-typescript',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -24,6 +26,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    "react/jsx-uses-react": "error",
     "no-restricted-imports": [
       "error",
       {
@@ -33,7 +36,28 @@ module.exports = {
     "react/react-in-jsx-scope": 0,
     "react/prop-types": "off",
     "react/jsx-indent": [2, 2],
+    "react/jsx-indent-props": [2, 2],
+    "react/destructuring-assignment": [2, "always"],
+    "react/no-unstable-nested-components": [2, { "allowAsProps": true }],
+    "react/jsx-closing-bracket-location": 2,
+    "react/jsx-curly-newline": [2, { multiline: "consistent", singleline: "consistent" }],
+    "react/jsx-curly-spacing": [2, { "when": "never" }],
+    "react/jsx-equals-spacing": [2, "never"],
+    "react/jsx-max-props-per-line": [2, { "maximum": 3 }],
+    "react/jsx-max-depth": [2, {"max": 3}],
+    "react/jsx-no-useless-fragment": [2],
+    "react/jsx-props-no-multi-spaces": [1],
+    "react/jsx-one-expression-per-line":[2],
+    "react/jsx-wrap-multilines": [2],
+    "react/jsx-tag-spacing": [2],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-nested-ternary": [2],
+    "react/no-array-index-key": [2],
+    "no-console": "warn",
+    "no-loop-func": [2],
+    "react/jsx-no-constructed-context-values": [2], //https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md
+    "react/jsx-pascal-case": [2], // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_",  }],
+
   },
 };

@@ -5,7 +5,9 @@ export const MainContainer = (props: {
 }) => {
   const { children } = props;
   return (
-    <Grid container spacing={2} alignItems="flex-start" justifyContent="center" mb={12} >
+    <Grid container spacing={2} alignItems="flex-start"
+      justifyContent="flex-start" mb={12}
+    >
       {children}
     </Grid>
   );
