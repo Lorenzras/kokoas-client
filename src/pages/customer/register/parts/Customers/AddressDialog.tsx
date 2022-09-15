@@ -94,16 +94,16 @@ export const AddressDialog = (props: {
       handleClose();
       startTransition(()=>{
         setFieldValue(postalFN, postal );
-        setFieldValue(address1FN, `${prefecture}${city}${town}` ); 
+        setFieldValue(address1FN, `${prefecture}${city}${town}` );
       });
 
- 
+
     }
 
   }, [postal]);
 
   useEffect(()=>{
-    if (open){
+    if (open) {
       setAddressDetails(initialAddressDetailsState);
     }
   }, [open]);

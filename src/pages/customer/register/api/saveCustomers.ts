@@ -6,7 +6,7 @@ export const saveCustomers = async (formData: CustomerForm) => {
   const transformedCust = formToKintCust(formData);
 
   /* Create record */
-  if (!formData.id){
+  if (!formData.id) {
     return KintoneRecord.addRecords({
       app: APPIDS.customers,
       records: transformedCust,
@@ -18,7 +18,7 @@ export const saveCustomers = async (formData: CustomerForm) => {
   const unsavedCust = transformedCust.filter(cust => !cust.$id?.value);
   let savedRecords = [] as { id: string, revision: string }[];
 
-  if (unsavedCust.length > 0){
+  if (unsavedCust.length > 0) {
     savedRecords = await KintoneRecord.addRecords({
       app: APPIDS.customers,
       records: unsavedCust,

@@ -31,7 +31,7 @@ export const MemoItemMenu = (props: MenuProps) => {
   };
 
   const handleAnswer = (answer: boolean) => {
-    if (answer){
+    if (answer) {
       handleClose(memoItem, '削除');
     }
     setIsConfirmDeleteOpen(false);

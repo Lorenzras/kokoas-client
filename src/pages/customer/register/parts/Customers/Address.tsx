@@ -77,7 +77,7 @@ export const Address = (props: AddressProps) => {
   useLazyEffect(()=>{
 
     /* Automatically retrieve address if address is empty */
-    if (postal && !address1){
+    if (postal && !address1) {
 
       getAddressByPostal(postal as string).then((address)=>{
         setFieldValue(`${namePrefix}${getCustFieldName('address1')}`, address);
