@@ -13,13 +13,15 @@ import { SubTotalTable } from './SubTotalTable/SubTotalTable';
 import { useUpdateProjectId } from './hooks/useUpdateProjectId';
 import { SearchProject } from './fieldComponents/SearchProject';
 import { FormikSelect } from '../../components/ui/selects';
+import { ProjEstimateShortcuts } from './ProjEstimateShortcuts';
 
 export default function FormProjEstimate() {
   const { submitForm, values } = useFormikContext<TypeOfForm>();
   const { projName, customerName, projId } = values;
 
   const { isLoading } = useUpdateProjectId();
-  
+
+
   return (
     <Form noValidate>
       <ScrollToFieldError />
@@ -71,9 +73,8 @@ export default function FormProjEstimate() {
           <SubTotalTable />
         </Grid>
 
-
-
         <FabSave onClick={submitForm} />
+        <ProjEstimateShortcuts />
       </MainContainer>
     </Form>
   );
