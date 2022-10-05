@@ -19,7 +19,6 @@ export const FormikContract = () => {
   return (
     <Formik
       initialValues={newInitVals}
-      validateOnMount={false}
       enableReinitialize
       validationSchema={validationSchema}
       onSubmit={onSubmit}

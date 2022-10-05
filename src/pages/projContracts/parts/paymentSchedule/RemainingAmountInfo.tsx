@@ -1,10 +1,13 @@
-import { Alert } from '@mui/material';
-import { useField } from 'formik';
+import { Alert, Fade } from '@mui/material';
+import { useField, useFormikContext } from 'formik';
 import {   useRef, useState } from 'react';
 import { useLazyEffect } from '../../../../hooks';
 import { getFieldName, TypeOfForm } from '../../form';
 
 export const RemainingAmountInfo = () => {
+  const { 
+    isValidating,
+  } = useFormikContext<TypeOfForm>();
   const [field, meta] = useField<TypeOfForm['remainingAmt']>(getFieldName('remainingAmt'));
   const { value: remainingAmt, name } = field;
   const { error } = meta;
@@ -14,7 +17,9 @@ export const RemainingAmountInfo = () => {
   const oldAmt = useRef(remainingAmt);
 
 
+
   useLazyEffect(()=>{
+
     const oldDiff = remainingAmt - oldAmt.current;
     const interval = 10;
     const timeout = 800;
@@ -42,20 +47,22 @@ export const RemainingAmountInfo = () => {
   const newNum = Math.round(animAmt);
   const isNumber = !isNaN(newNum);
 
+
   return (
 
-    <Alert id={name} severity={!error ? 'success' : 'warning'} >
+    <Fade in={!isValidating}>
+      <Alert id={name} severity={!error ? 'success' : 'warning'} >
 
-      {!error && '契約合計と請求額が合っています。'}
+        {!error && '契約合計と請求額が合っています。'}
 
-      {!!error &&  `${error}`}
+        {!!error &&  `${error}`}
 
-      {!!error && isNumber && (
+        {!!error && isNumber && (
         <div>
           {`相違額： ${newNum?.toLocaleString()} 円 。`}
         </div>)}
-
-    </Alert>
+      </Alert>
+    </Fade>
 
 
   );

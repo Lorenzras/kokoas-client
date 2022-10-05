@@ -2,7 +2,7 @@ import { Form, useFormikContext } from 'formik';
 import { MainContainer } from '../../components/ui/containers';
 import { PageSubTitle, PageTitle } from '../../components/ui/labels';
 import { ContractPageShortcuts } from './parts/ContractPageShortcuts';
-import { getFieldName, TypeOfForm } from './form';
+import { TypeOfForm } from './form';
 import {  Grid } from '@mui/material';
 import { SearchProjField } from './parts/SearchProjField';
 import { ContractInfo } from './parts/contractInfo/ContractInfo';
@@ -27,14 +27,14 @@ export const FormContract = ({
 
   const { values, isSubmitting, dirty, touched, errors } = useFormikContext<TypeOfForm>();
 
-  const { projEstimateId, projId, projName } = values;
+  const { projEstimateId, projId, projName, remainingAmt } = values;
 
   const { totalAmountInclTax } = calculatedEstimate ?? {};
 
   /* 本当に小数点切り捨ていいか、要確認 */
   const roundedTotalAmt = Math.round(totalAmountInclTax ?? 0);
 
-  console.log(dirty, touched, errors);
+  console.log(dirty, touched, errors, remainingAmt );
 
   return (
     <Form noValidate>
@@ -54,18 +54,18 @@ export const FormContract = ({
         {/* 見積もり選択フィールド
           Reload field and its options after every submit.
         */}
-        {/*         {!isSubmitting && (
-          <Grid item xs={12} md={8}
-            lg={6}
-          >
-            <SelectProjEstimates
-              projId={projId}
-              projEstimateId={projEstimateId}
-              handleChange={handleChangeSelectedEstimate}
-            />
-          </Grid>
+        {!isSubmitting && (
+        <Grid item xs={12} md={8}
+          lg={6}
+        >
+          <SelectProjEstimates
+            projId={projId}
+            selectedProjEstimateId={projEstimateId}
+            handleChange={handleChangeSelectedEstimate}
+          />
+        </Grid>
         )}
- */}
+
 
 
         {/* 支払い予定入力 */}
