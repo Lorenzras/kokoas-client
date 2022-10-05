@@ -17,9 +17,9 @@ export const FormikContract = () => {
       enableReinitialize
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      
+
     >
-      <FormContract 
+      <FormContract
         handleChangeSelectedEstimate={handleChangeSelectedEstimate}
         calculatedEstimate={calculatedEstimate}
       />

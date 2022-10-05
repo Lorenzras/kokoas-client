@@ -2,13 +2,13 @@ import { Button, Stack } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import PreviewIcon from '@mui/icons-material/Preview';
 import { useFormikContext } from 'formik';
-import { TypeOfForm } from '../../form';
+import { TypeOfForm } from '../form';
 import { useState } from 'react';
-import { ContractDialog } from '../Preview/ContractDialog';
+import { ContractDialog } from './Preview/ContractDialog';
 import { isEmpty } from 'lodash';
-import { useSnackBar } from '../../../../hooks';
+import { useSnackBar } from '../../../hooks';
 
-export const PaymentFormActions = () => {
+export const ContractFormActions = () => {
   const [openPreview, setOpenPreview] = useState(false);
   const { setSnackState } = useSnackBar();
   const {
@@ -31,7 +31,7 @@ export const PaymentFormActions = () => {
         message: 'フォームに変更がありません。',
       });
     }
- 
+
     if (submitMethod === 'contract' && isEmpty(errors)) {
       setOpenPreview(true);
     }

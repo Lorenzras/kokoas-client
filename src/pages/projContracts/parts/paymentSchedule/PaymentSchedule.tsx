@@ -4,7 +4,6 @@ import { TypeOfForm } from '../../form';
 import { RefundFieldGroup } from './RefundFieldGroup';
 import { PaymentContainer } from './PaymentContainer';
 import { PaymentFields } from './PaymentFields';
-import { PaymentFormActions } from './PaymentFormActions';
 import { RemainingAmountInfo } from './RemainingAmountInfo';
 import { TotalPaymentAmount } from './TotalPaymentAmount';
 import useDeepCompareEffect from 'use-deep-compare-effect';
@@ -15,7 +14,7 @@ export const PaymentSchedule = ({
   totalAmount?: number
 }) => {
   const { values, setValues } = useFormikContext<TypeOfForm>();
-  const { paymentFields, remainingAmt } = values; 
+  const { paymentFields, remainingAmt } = values;
 
 
   useDeepCompareEffect(() => {
@@ -34,14 +33,14 @@ export const PaymentSchedule = ({
       <Stack spacing={2}>
 
         <TotalPaymentAmount totalAmount={totalAmount} />
-     
+
         <PaymentFields />
 
         <RemainingAmountInfo />
 
         <RefundFieldGroup />
 
-        <PaymentFormActions />
+
 
       </Stack>
     </PaymentContainer>

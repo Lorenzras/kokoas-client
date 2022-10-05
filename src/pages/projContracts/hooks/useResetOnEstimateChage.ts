@@ -3,6 +3,7 @@ import { ComponentProps, useEffect, useState } from 'react';
 import { calculateEstimate } from '../../../api/others/calculateEstimate';
 import { SelectProjEstimates } from '../../../components/ui/selects';
 import { getParam } from '../../../helpers/url';
+import { getProjDataById } from '../api/getProjDataById';
 import { initialValues, TypeOfForm } from '../form';
 
 
@@ -22,13 +23,23 @@ export const useResetOnEstimateChange = () => {
   const projEstimateIdFromURL = getParam('projEstimateId');
 
   useEffect(()=>{
+
+    setNewInitVals(prev => ({
+      ...prev,
+      projEstimateId: projEstimateIdFromURL ?? '',
+      projId: projIdFromURL ?? '',
+    }));
+
     if (projIdFromURL) {
-      setNewInitVals(prev => ({
-        ...prev,
-        projEstimateId: projEstimateIdFromURL ?? '',
-        projId: projIdFromURL,
-      }));
+      getProjDataById(projIdFromURL)
+        .then(res => {
+          setNewInitVals(prev => ({
+            ...prev,
+            ...res,
+          }));
+        });
     }
+
   }, [projIdFromURL, projEstimateIdFromURL, setNewInitVals]);
 
 
@@ -70,7 +81,7 @@ export const useResetOnEstimateChange = () => {
 
     const newForm: TypeOfForm = {
       ...initialValues,
-      projId: projId?.value || '', 
+      projId: projId?.value || '',
       projName: projName?.value || '',
       projEstimateRevision: $revision?.value || '',
       projEstimateId: projEstimateId ?? '',
@@ -78,7 +89,7 @@ export const useResetOnEstimateChange = () => {
       envelopeStatus: envStatus?.value as TEnvelopeStatus ?? '',
       envDocFileKeys: envDocFileKeys?.value ?? [],
       envSelectedDoc: envDocFileKeys?.value[0]?.fileKey ?? '',
-      
+
       paymentFields: newPaymentFields,
       remainingAmt: newRemainingAmt,
 
@@ -89,7 +100,7 @@ export const useResetOnEstimateChange = () => {
     setNewInitVals(newForm);
 
     if (!projEstimateId) setSelectedEstimate(undefined);
-    
+
   };
 
   return {
