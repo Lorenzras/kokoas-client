@@ -62,12 +62,6 @@ export const FormContract = ({
 
         </Grid>
 
-        {!!projEstimateId && (
-          <>
-            <PageSubTitle label={'工期'} />
-            <ProjectSchedules />
-          </>
-        )}
 
         {/* 支払い予定入力 */}
         {!!projEstimateId && (
@@ -75,6 +69,13 @@ export const FormContract = ({
             <PageSubTitle label='支払い予定' />
             <PaymentSchedule totalAmount={roundedTotalAmt} />
           </>
+        )}
+
+        {!!projEstimateId && (
+        <>
+          <PageSubTitle label={'工期'} />
+          <ProjectSchedules />
+        </>
         )}
 
         {/* 契約内容 */}

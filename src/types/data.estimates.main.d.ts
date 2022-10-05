@@ -5,9 +5,13 @@ declare namespace Estimates.main {
     updateByName: kintone.fieldTypes.SingleLineText;
     envRecipients: kintone.fieldTypes.SingleLineText;
     hasRefund: kintone.fieldTypes.Number;
+    finishDaysAfterContract: kintone.fieldTypes.Number;
     税: kintone.fieldTypes.Number;
+    completeDate: kintone.fieldTypes.Date;
+    payDestination: kintone.fieldTypes.SingleLineText;
     顧客名: kintone.fieldTypes.SingleLineText;
     estimateStatus: kintone.fieldTypes.SingleLineText;
+    payMethod: kintone.fieldTypes.SingleLineText;
     voidedEnvelopes: kintone.fieldTypes.SingleLineText;
     工事種別名: kintone.fieldTypes.SingleLineText;
     refundAmt: kintone.fieldTypes.Number;
@@ -15,10 +19,13 @@ declare namespace Estimates.main {
     envId: kintone.fieldTypes.SingleLineText;
     envStatus: kintone.fieldTypes.SingleLineText;
     updatedById: kintone.fieldTypes.Number;
+    startDaysAfterContract: kintone.fieldTypes.Number;
     工事種別利益: kintone.fieldTypes.Number;
     projTypeId: kintone.fieldTypes.Number;
+    finishDate: kintone.fieldTypes.Date;
     updateDateTime: kintone.fieldTypes.DateTime;
     signMethod: kintone.fieldTypes.SingleLineText;
+    startDate: kintone.fieldTypes.Date;
     totalPaymentAmt: kintone.fieldTypes.Calc;
 
     envDocFileKeys: kintone.fieldTypes.File;

@@ -46,6 +46,14 @@ export const useReseOnIdsChange = () => {
       refundAmt,
       工事名称: projName,
       projId,
+      startDate,
+      startDaysAfterContract,
+      finishDate,
+      finishDaysAfterContract,
+      payMethod,
+      payDestination,
+      completeDate,
+
     } = selected ?? {};
 
     const newPaymentFields : TypeOfForm['paymentFields'] = paymentSched?.value.length ? paymentSched?.value?.map(({ value: {
@@ -73,6 +81,15 @@ export const useReseOnIdsChange = () => {
       envelopeStatus: envStatus?.value as TEnvelopeStatus ?? '',
       envDocFileKeys: envDocFileKeys?.value ?? [],
       envSelectedDoc: envDocFileKeys?.value[0]?.fileKey ?? '',
+      completeDate: completeDate?.value || '',
+
+      /* 支払い */
+      startDate: startDate?.value || '',
+      startDaysAfterContract: +(startDaysAfterContract?.value || 0),
+      finishDate: finishDate?.value || '',
+      finishDaysAfterContract: +(finishDaysAfterContract?.value || 0),
+      payDestination: payDestination?.value || '',
+      payMethod: (payMethod?.value || '振込') as TypeOfForm['payMethod'],
 
       paymentFields: newPaymentFields,
       remainingAmt: newRemainingAmt,

@@ -37,6 +37,15 @@ export const initialValues = {
 
   signMethod: '' as TSignMethod,
 
+  /* 工期 */
+  startDate: '' as string | Date,
+  startDaysAfterContract : 0,
+  finishDate: '' as string | Date,
+  finishDaysAfterContract : 0,
+  payMethod: '振込' as '持参' | '集金' | '振込',
+  payDestination: '', // 振込先
+  completeDate: '' as string | Date,
+
   /* 支払い予定 */
   paymentFields: Array<TypeOfPayFields>(4)
     .fill(initPayFields),
