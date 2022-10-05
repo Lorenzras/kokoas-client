@@ -3,6 +3,7 @@ import {
   getFieldName,
   getPayFieldName,
   KeyOfForm,
+  TypeOfForm,
   TypeOfPayFields } from './form';
 
 
@@ -62,5 +63,12 @@ export const validationSchema =  Yup
     .typeError('数字ではないものが入っています。確認してください。')
     .equals([0], '契約合計と請求額が相違しています。'),
 
+  payMethod: Yup.string().required('選択してください。'),
 
+  payDestination : Yup
+    .string()
+    .when(getFieldName('payMethod'), {
+      is: (payMethod: TypeOfForm['payMethod']) => payMethod === '振込',
+      then: Yup.string().required('振込先を入力してください'),
+    }),
 });

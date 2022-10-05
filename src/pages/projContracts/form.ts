@@ -42,7 +42,7 @@ export const initialValues = {
   startDaysAfterContract : 0,
   finishDate: '' as string | Date,
   finishDaysAfterContract : 0,
-  payMethod: '振込' as '持参' | '集金' | '振込',
+  payMethod: '振込' as typeof payMethods[number],
   payDestination: '', // 振込先
   completeDate: '' as string | Date,
 
@@ -55,6 +55,7 @@ export const initialValues = {
 
 };
 
+export const payMethods = ['持参', '集金', '振込'] as const;
 export const paymentLabels = ['契約金', '着手金', '中間金', '最終金'] as const;
 
 

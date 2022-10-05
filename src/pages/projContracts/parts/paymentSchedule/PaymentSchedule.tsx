@@ -7,6 +7,7 @@ import { PaymentFields } from './PaymentFields';
 import { RemainingAmountInfo } from './RemainingAmountInfo';
 import { TotalPaymentAmount } from './TotalPaymentAmount';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { PaymentMethod } from './PaymentMethod';
 
 export const PaymentSchedule = ({
   totalAmount = 0,
@@ -34,11 +35,15 @@ export const PaymentSchedule = ({
 
         <TotalPaymentAmount totalAmount={totalAmount} />
 
-        <PaymentFields />
-
         <RemainingAmountInfo />
 
+        <PaymentFields />
+
         <RefundFieldGroup />
+
+        <PaymentMethod />
+
+
 
 
 
