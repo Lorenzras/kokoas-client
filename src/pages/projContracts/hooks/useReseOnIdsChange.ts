@@ -32,6 +32,13 @@ export const useReseOnIdsChange = () => {
     projEstimateId,
     calculated,
   ) => {
+
+    console.log('EstimateChange', projEstimateId);
+
+    if (!projEstimateId) return;
+
+
+
     /* Updated calculated estimates */
     setCalculatedEstimate(calculated);
     setSelectedEstimate(selected);
@@ -104,14 +111,18 @@ export const useReseOnIdsChange = () => {
 
 
   const handleChangeProjId = useCallback((projId: string) => {
+
+    if (!projId) {
+      setNewInitVals(initialValues);
+      return;
+    }
+
     getProjDataById(projId)
       .then((formData) => {
 
-        setNewInitVals( (prev) => {
-          return {
-            ...prev,
-            ...formData,
-          };
+        setNewInitVals({
+          ...initialValues,
+          ...formData,
         });
 
       })
@@ -125,19 +136,26 @@ export const useReseOnIdsChange = () => {
 
   }, [setSnackState]);
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    setNewInitVals(prev => ({
-      ...prev,
-      projEstimateId: projEstimateIdFromURL ?? '',
-      projId: projIdFromURL ?? '',
-    }));
+    if (projEstimateIdFromURL) {
+      setNewInitVals(prev => ({
+        ...prev,
+        projEstimateId: projEstimateIdFromURL ?? '',
+      }));
+    }
+  }, [projEstimateIdFromURL]);
+
+
+  useEffect(() => {
 
     if (projIdFromURL) {
       handleChangeProjId(projIdFromURL);
     }
 
-  }, [projIdFromURL, projEstimateIdFromURL, setNewInitVals, handleChangeProjId]);
+  }, [projIdFromURL, handleChangeProjId]);
+
+
 
   return {
     handleChangeSelectedEstimate,
