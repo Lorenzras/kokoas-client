@@ -25,7 +25,7 @@ export const FormContract = ({
   handleChangeProjId?: (projdId : string) => void
 }) => {
 
-  const { values } = useFormikContext<TypeOfForm>();
+  const { values, isSubmitting } = useFormikContext<TypeOfForm>();
 
   const { projEstimateId, projId, projName } = values;
 
@@ -50,17 +50,21 @@ export const FormContract = ({
         </Grid>
 
 
-        {/* 見積もり選択フィールド */}
-        <Grid item xs={12} md={8}
-          lg={6}
-        >
-          <SelectProjEstimates
-            projId={projId}
-            projEstimateId={projEstimateId}
-            handleChange={handleChangeSelectedEstimate}
-          />
+        {/* 見積もり選択フィールド
+          Reload field and its options after every submit.
+        */}
+        {!isSubmitting && (
+          <Grid item xs={12} md={8}
+            lg={6}
+          >
+            <SelectProjEstimates
+              projId={projId}
+              projEstimateId={projEstimateId}
+              handleChange={handleChangeSelectedEstimate}
+            />
+          </Grid>
+        )}
 
-        </Grid>
 
 
         {/* 支払い予定入力 */}
