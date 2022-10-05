@@ -111,7 +111,7 @@ export const useReseOnIdsChange = () => {
 
 
   const handleChangeProjId = useCallback((projId: string) => {
-
+    console.log('FIRE!', projId);
     if (!projId) {
       setNewInitVals(initialValues);
       return;
@@ -136,24 +136,24 @@ export const useReseOnIdsChange = () => {
 
   }, [setSnackState]);
 
-  useEffect(() => {
-
-    if (projEstimateIdFromURL) {
-      setNewInitVals(prev => ({
-        ...prev,
-        projEstimateId: projEstimateIdFromURL ?? '',
-      }));
-    }
-  }, [projEstimateIdFromURL]);
-
 
   useEffect(() => {
+
+    setNewInitVals(prev => ({
+      ...prev,
+      projEstimateId: projEstimateIdFromURL ?? '',
+      projId: projIdFromURL ?? '',
+    }));
 
     if (projIdFromURL) {
       handleChangeProjId(projIdFromURL);
     }
 
-  }, [projIdFromURL, handleChangeProjId]);
+  }, [projEstimateIdFromURL, projIdFromURL, handleChangeProjId]);
+
+
+
+
 
 
 
