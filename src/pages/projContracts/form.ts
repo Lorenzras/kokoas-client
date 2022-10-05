@@ -37,8 +37,6 @@ export const initialValues = {
 
   signMethod: '' as TSignMethod,
 
-  contractPrice: 0,
-
   /* 支払い予定 */
   paymentFields: Array<TypeOfPayFields>(4)
     .fill(initPayFields),

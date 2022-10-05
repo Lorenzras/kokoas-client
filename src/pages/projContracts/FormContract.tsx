@@ -9,7 +9,6 @@ import { ContractInfo } from './parts/contractInfo/ContractInfo';
 import { EmptyBox } from '../../components/ui/information/EmptyBox';
 import { SelectProjEstimates } from '../../components/ui/selects';
 import { PaymentSchedule } from './parts/paymentSchedule/PaymentSchedule';
-import { GridNextDivider } from './parts/GridNextDivider';
 import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
 import { ComponentProps } from 'react';
 import { calculateEstimate } from '../../api/others/calculateEstimate';
@@ -41,7 +40,6 @@ export const FormContract = ({
       <MainContainer justifyContent={'space-between'}>
         <PageTitle label='契約' />
 
-
         <Grid item xs={12} md={4} >
           <SearchProjField
             label="工事情報の検索"
@@ -63,8 +61,6 @@ export const FormContract = ({
           />
 
         </Grid>
-
-        <GridNextDivider isShow={!!projEstimateId} />
 
         {!!projEstimateId && (
           <>
