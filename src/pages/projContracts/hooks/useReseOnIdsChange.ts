@@ -1,8 +1,9 @@
 import { parseISO } from 'date-fns';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps, useCallback, useEffect, useState } from 'react';
 import { calculateEstimate } from '../../../api/others/calculateEstimate';
 import { SelectProjEstimates } from '../../../components/ui/selects';
 import { getParam } from '../../../helpers/url';
+import { useSnackBar } from '../../../hooks';
 import { getProjDataById } from '../api/getProjDataById';
 import { initialValues, TypeOfForm } from '../form';
 
@@ -14,7 +15,8 @@ import { initialValues, TypeOfForm } from '../form';
  * @returns {object} obj.selectedEstimate 選択された見積のレコード
  * @returns {object} obj.handleChangeEstimate 選択の変更際の関数
  */
-export const useResetOnEstimateChange = () => {
+export const useReseOnIdsChange = () => {
+  const { setSnackState } = useSnackBar();
   const [newInitVals, setNewInitVals] = useState<TypeOfForm>(initialValues);
   const [calculatedEstimate, setCalculatedEstimate] = useState<Awaited<ReturnType<typeof calculateEstimate>>>();
   const [selectedEstimate, setSelectedEstimate] = useState<Estimates.main.SavedData>();
@@ -22,25 +24,7 @@ export const useResetOnEstimateChange = () => {
   const projIdFromURL = getParam('projId');
   const projEstimateIdFromURL = getParam('projEstimateId');
 
-  useEffect(()=>{
 
-    setNewInitVals(prev => ({
-      ...prev,
-      projEstimateId: projEstimateIdFromURL ?? '',
-      projId: projIdFromURL ?? '',
-    }));
-
-    if (projIdFromURL) {
-      getProjDataById(projIdFromURL)
-        .then(res => {
-          setNewInitVals(prev => ({
-            ...prev,
-            ...res,
-          }));
-        });
-    }
-
-  }, [projIdFromURL, projEstimateIdFromURL, setNewInitVals]);
 
 
   const handleChangeSelectedEstimate : ComponentProps<typeof SelectProjEstimates>['handleChange'] = (
@@ -79,8 +63,8 @@ export const useResetOnEstimateChange = () => {
     const newRemainingAmt = newPaymentFields
       .reduce((acc, { amount }) => acc - +amount, calculated?.totalAmountInclTax || 0);
 
-    const newForm: TypeOfForm = {
-      ...initialValues,
+    setNewInitVals(prev => ({
+      ...prev,
       projId: projId?.value || '',
       projName: projName?.value || '',
       projEstimateRevision: $revision?.value || '',
@@ -95,16 +79,52 @@ export const useResetOnEstimateChange = () => {
 
       hasRefund: Boolean(+(hasRefund?.value ?? 0)),
       refundAmt: +(refundAmt?.value ?? 0),
-    };
-
-    setNewInitVals(newForm);
+    }));
 
     if (!projEstimateId) setSelectedEstimate(undefined);
 
   };
 
+
+  const handleChangeProjId = useCallback((projId: string) => {
+    getProjDataById(projId)
+      .then((formData) => {
+
+        setNewInitVals( (prev) => {
+          return {
+            ...prev,
+            ...formData,
+          };
+        });
+
+      })
+      .catch((err) => {
+        setSnackState({
+          open: true,
+          message: `レコード取得にエラーが発生しました。${err.message}`,
+          severity: 'error',
+        });
+      });
+
+  }, [setSnackState]);
+
+  useEffect(()=>{
+
+    setNewInitVals(prev => ({
+      ...prev,
+      projEstimateId: projEstimateIdFromURL ?? '',
+      projId: projIdFromURL ?? '',
+    }));
+
+    if (projIdFromURL) {
+      handleChangeProjId(projIdFromURL);
+    }
+
+  }, [projIdFromURL, projEstimateIdFromURL, setNewInitVals, handleChangeProjId]);
+
   return {
     handleChangeSelectedEstimate,
+    handleChangeProjId,
     newInitVals,
     calculatedEstimate,
     selectedEstimate,

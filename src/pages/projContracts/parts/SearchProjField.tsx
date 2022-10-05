@@ -15,6 +15,7 @@ export const SearchProjField = (props: {
   name: string,
   label: string,
   projName: string,
+  handleChange?: (projId: string) => void
 }) => {
   const { setStatus, setFieldValue } = useFormikContext<TypeOfForm>();
 
@@ -34,6 +35,7 @@ export const SearchProjField = (props: {
   const {
     projName,
     label,
+    handleChange,
   } = props;
 
 
@@ -87,6 +89,7 @@ export const SearchProjField = (props: {
         setFieldVal(val);
 
         if (val) {
+          handleChange?.(val?.id);
           setStatus('busy' as TFormStatus);
         } else {
           // Clear options, and projName when nothing is selected

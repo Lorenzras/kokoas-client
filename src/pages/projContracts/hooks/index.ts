@@ -1,5 +1,6 @@
 export * from './useContractPreview';
-export * from './useResetOnEstimateChage';
+export * from './useReseOnIdsChange';
+export * from './useResolveParams';
 export * from './useSendElectronicContract';
 export * from './useStartContractProcess';
 export * from './useSubmitContractInfo';

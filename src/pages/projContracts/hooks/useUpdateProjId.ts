@@ -36,7 +36,6 @@ export const useUpdateProjId = () => {
             };
           });
 
-
         })
         .catch((err) => {
           memSetSnackState({

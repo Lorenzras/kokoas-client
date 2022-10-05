@@ -14,13 +14,16 @@ import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
 import { ComponentProps } from 'react';
 import { calculateEstimate } from '../../api/others/calculateEstimate';
 import { ContractFormActions } from './parts/ContractFormActions';
+import { ProjectSchedules } from './parts/projSchedules/ProjectSchedules';
 
 export const FormContract = ({
   handleChangeSelectedEstimate,
   calculatedEstimate,
+  handleChangeProjId,
 }: {
   handleChangeSelectedEstimate: ComponentProps<typeof SelectProjEstimates>['handleChange'],
   calculatedEstimate?: Awaited<ReturnType<typeof calculateEstimate>>
+  handleChangeProjId?: (projdId : string) => void
 }) => {
 
   const { values } = useFormikContext<TypeOfForm>();
@@ -44,6 +47,7 @@ export const FormContract = ({
             label="工事情報の検索"
             name={getFieldName('projId')}
             projName={projName}
+            handleChange={handleChangeProjId}
           />
         </Grid>
 
@@ -65,7 +69,7 @@ export const FormContract = ({
         {!!projEstimateId && (
           <>
             <PageSubTitle label={'工期'} />
-            Hello
+            <ProjectSchedules />
           </>
         )}
 
