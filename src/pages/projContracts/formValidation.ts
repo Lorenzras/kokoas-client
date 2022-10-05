@@ -69,6 +69,6 @@ export const validationSchema =  Yup
     .string()
     .when(getFieldName('payMethod'), {
       is: (payMethod: TypeOfForm['payMethod']) => payMethod === '振込',
-      then: Yup.string().required('振込先を入力してください'),
+      then: Yup.string(),
     }),
 });
