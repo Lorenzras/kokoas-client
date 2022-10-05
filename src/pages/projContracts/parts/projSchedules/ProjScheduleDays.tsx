@@ -19,10 +19,10 @@ export const ProjScheduleDays = ({
       {...field}
       value={value || ''}
       variant={'standard'}
-      margin="normal"
       inputProps={{
         sx: {
           textAlign: 'right',
+          maxWidth: '100px',
         },
       }}
       error={touched && !!error}

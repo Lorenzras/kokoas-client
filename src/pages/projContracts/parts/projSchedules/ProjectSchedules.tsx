@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { FormControl, FormLabel, Stack } from '@mui/material';
 import { useMemo } from 'react';
 import { KeyOfForm } from '../../form';
 import { ProjectSchedulesContainer } from './ProjectSchedulesContainer';
@@ -16,11 +16,20 @@ export const ProjectSchedules = () => {
     <ProjectSchedulesContainer>
       {fields.map(([dateFName, daysFName, label]) => {
         return (
-          <Stack key={label} direction={'row'} spacing={2}>
-            <ProjScheduleDate fieldName={dateFName} label={label} />
-            <ProjScheduleDays fieldName={daysFName} />
-          </Stack>
+          <FormControl key={label}>
+            <FormLabel>
+              {label}
+            </FormLabel>
+
+            <Stack direction={'row'} spacing={2}>
+              <ProjScheduleDate fieldName={dateFName} />
+              <ProjScheduleDays fieldName={daysFName} />
+            </Stack>
+          </FormControl>
         );
       })}
+
+      <ProjScheduleDate fieldName='completeDate' variant='outlined' label={'引渡し時期'}  />
+
     </ProjectSchedulesContainer>);
 };
