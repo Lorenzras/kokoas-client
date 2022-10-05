@@ -19,8 +19,7 @@ export const FormikContract = () => {
   return (
     <Formik
       initialValues={newInitVals}
-      initialStatus={'busy' as TFormStatus}
-      validateOnMount
+      validateOnMount={false}
       enableReinitialize
       validationSchema={validationSchema}
       onSubmit={onSubmit}

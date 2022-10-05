@@ -25,7 +25,7 @@ export const FormContract = ({
   handleChangeProjId?: (projdId : string) => void
 }) => {
 
-  const { values, isSubmitting } = useFormikContext<TypeOfForm>();
+  const { values, isSubmitting, dirty, touched, errors } = useFormikContext<TypeOfForm>();
 
   const { projEstimateId, projId, projName } = values;
 
@@ -33,6 +33,8 @@ export const FormContract = ({
 
   /* 本当に小数点切り捨ていいか、要確認 */
   const roundedTotalAmt = Math.round(totalAmountInclTax ?? 0);
+
+  console.log(dirty, touched, errors);
 
   return (
     <Form noValidate>
@@ -42,8 +44,7 @@ export const FormContract = ({
 
         <Grid item xs={12} md={4} >
           <SearchProjField
-            label="工事情報の検索"
-            name={getFieldName('projId')}
+            projId={projId}
             projName={projName}
             handleChange={handleChangeProjId}
           />
@@ -53,7 +54,7 @@ export const FormContract = ({
         {/* 見積もり選択フィールド
           Reload field and its options after every submit.
         */}
-        {!isSubmitting && (
+        {/*         {!isSubmitting && (
           <Grid item xs={12} md={8}
             lg={6}
           >
@@ -64,7 +65,7 @@ export const FormContract = ({
             />
           </Grid>
         )}
-
+ */}
 
 
         {/* 支払い予定入力 */}

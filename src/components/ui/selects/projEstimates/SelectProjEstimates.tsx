@@ -94,6 +94,7 @@ export const SelectProjEstimates = ({
   /* 選択された見積レコードと番号をhandleChangeに渡す。 */
   const handleSelectedValue = useCallback(
     async (selectedValue: string) => {
+      console.log('HANDLE SELECT', selectedValue, selectedRecord.current);
       const calculated = selectedRecord.current ? await calculateEstimateRecord(selectedRecord.current) : Object.create(null);
       refHandleChange.current?.(
         selectedRecord.current,
@@ -108,6 +109,7 @@ export const SelectProjEstimates = ({
   useDeepCompareEffect(() => {
     refEstimateRecords.current = projEstimateRecords;
     if (projEstimateRecords.length && projEstimateId) {
+      console.log('projEstimateRecords record changed!');
       selectedRecord.current = refEstimateRecords
         .current
         .find(({ $id }) => $id.value === projEstimateId);
@@ -116,6 +118,7 @@ export const SelectProjEstimates = ({
 
   useDeepCompareEffect(()=>{
     if (!isEmpty(selectedRecord.current)) {
+      console.log('Selected record changed!');
       handleSelectedValue(projEstimateId);
     }
 

@@ -33,7 +33,7 @@ export const useReseOnIdsChange = () => {
     calculated,
   ) => {
 
-
+    console.log('estimate HOOK', projEstimateId, selected);
 
     if (!projEstimateId) return;
 
@@ -114,6 +114,8 @@ export const useReseOnIdsChange = () => {
 
 
   const handleChangeProjId = useCallback((projId: string) => {
+    console.log('ProjId changed!', projId);
+
     if (!projId) {
       setNewInitVals(initialValues);
       return;
@@ -121,12 +123,14 @@ export const useReseOnIdsChange = () => {
 
     getProjDataById(projId)
       .then((formData) => {
-
+     
         setNewInitVals(prev => {
           // Typescript do now throw error on {...prev, formData}
           // So I intermediately declare it here.
           // Typings might need improvment ~ Ras 2022.10.15
           const newForm : TypeOfForm = { ...prev, ...formData };
+
+          console.log('Updating formdata', newForm);
           return newForm;
         });
 
