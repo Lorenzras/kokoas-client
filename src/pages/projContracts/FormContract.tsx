@@ -12,25 +12,27 @@ import { PaymentSchedule } from './parts/paymentSchedule/PaymentSchedule';
 import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
 import { ContractFormActions } from './parts/ContractFormActions';
 import { ProjectSchedules } from './parts/projSchedules/ProjectSchedules';
-import { useReseOnIdsChange } from './hooks';
+import { useResetOnIdsChange } from './hooks';
 
 
 export const FormContract = () => {
 
-  const { values, isSubmitting } = useFormikContext<TypeOfForm>();
+  const { values, touched } = useFormikContext<TypeOfForm>();
 
-  const { projEstimateId, projId, projName } = values;
+  const { projEstimateId, projId, projName, projEstimateRevision } = values;
 
   const {
     calculatedEstimate,
     handleChangeProjId,
     handleChangeSelectedEstimate,
-  } = useReseOnIdsChange();
+  } = useResetOnIdsChange();
 
   const { totalAmountInclTax } = calculatedEstimate ?? {};
 
   /* 本当に小数点切り捨ていいか、要確認 */
   const roundedTotalAmt = Math.round(totalAmountInclTax ?? 0);
+
+  console.log(touched);
 
   return (
     <Form noValidate>
@@ -50,17 +52,18 @@ export const FormContract = () => {
         {/* 見積もり選択フィールド
           Reload field and its options after every submit.
         */}
-        {!isSubmitting && (
+      
         <Grid item xs={12} md={8}
           lg={6}
         >
           <SelectProjEstimates
             projId={projId}
             selectedProjEstimateId={projEstimateId}
+            revision={projEstimateRevision}
             handleChange={handleChangeSelectedEstimate}
           />
         </Grid>
-        )}
+      
 
 
 

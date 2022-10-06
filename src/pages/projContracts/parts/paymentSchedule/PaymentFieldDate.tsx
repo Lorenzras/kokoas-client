@@ -28,6 +28,7 @@ export const PaymentFieldDate = ({
       views={['year', 'month', 'day' ]}
       onChange={(v)=>{
         setValue(v ?? '', true);
+        setTouched(true);
       }}
       InputProps={{
         label: 'hello',

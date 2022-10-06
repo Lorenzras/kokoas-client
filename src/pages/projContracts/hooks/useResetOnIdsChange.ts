@@ -16,7 +16,7 @@ import { initialValues, TypeOfForm } from '../form';
  * @returns {object} obj.selectedEstimate 選択された見積のレコード
  * @returns {object} obj.handleChangeEstimate 選択の変更際の関数
  */
-export const useReseOnIdsChange = () => {
+export const useResetOnIdsChange = () => {
   const { setValues, setTouched } = useFormikContext<TypeOfForm>();
   const { setSnackState } = useSnackBar();
   const [calculatedEstimate, setCalculatedEstimate] = useState<Awaited<ReturnType<typeof calculateEstimate>>>();
@@ -85,12 +85,12 @@ export const useReseOnIdsChange = () => {
         envelopeStatus: envStatus?.value as TEnvelopeStatus ?? '',
         envDocFileKeys: envDocFileKeys?.value ?? [],
         envSelectedDoc: envDocFileKeys?.value[0]?.fileKey ?? '',
-        completeDate: completeDate?.value || '',
+        completeDate: completeDate?.value ? parseISO(completeDate?.value) :  '',
 
         /* 支払い */
-        startDate: startDate?.value || '',
+        startDate: startDate?.value ? parseISO(startDate?.value) : '',
         startDaysAfterContract: +(startDaysAfterContract?.value || 0),
-        finishDate: finishDate?.value || '',
+        finishDate:  finishDate?.value ? parseISO(finishDate?.value)   : '',
         finishDaysAfterContract: +(finishDaysAfterContract?.value || 0),
         payDestination: payDestination?.value || '',
         payMethod: (payMethod?.value || '振込') as TypeOfForm['payMethod'],

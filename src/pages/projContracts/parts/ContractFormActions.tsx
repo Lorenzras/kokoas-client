@@ -33,11 +33,14 @@ export const ContractFormActions = () => {
    
       }
     } else {
+      console.log('SUBMITTED!');
       await submitForm();
     }
 
-    if (submitMethod === 'contract' && isEmpty(errors)) {
-      setOpenPreview(true);
+    if (submitMethod === 'contract' ) {
+      if (isEmpty(errors)) {
+        setOpenPreview(true);
+      } 
     }
 
   };

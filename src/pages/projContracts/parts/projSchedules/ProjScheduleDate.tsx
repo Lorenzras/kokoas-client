@@ -31,13 +31,16 @@ export const ProjScheduleDate = ({
       views={['year', 'month', 'day' ]}
       onChange={(v)=>{
         setValue(v ?? '', true);
+        setTouched(true);
       }}
       renderInput={(params) =>(
         <TextField
           {...params}
           name={name}
           label={label}
-          onBlur={() => setTouched(true, true)}
+          onBlur={() => {
+            setTouched(true);
+          }}
           variant={variant}
           error={isShowError}
           helperText={isShowError ? error : ' '}

@@ -21,6 +21,7 @@ export const useSubmitContractInfo = () => {
     try {
       setBackdropState({ open: true });
 
+      console.log('VALUES on submit', values);
   
       /* Throttle */
       if (submitMethod === 'normal') {

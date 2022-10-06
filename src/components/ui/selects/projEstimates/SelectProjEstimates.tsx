@@ -11,11 +11,12 @@ import { calculateEstimateRecord } from '../../../../api/others/calculateEstimat
 export const SelectProjEstimates = ({
   projId,
   selectedProjEstimateId,
+  revision,
   handleChange,
 }: {
   projId: string,
   selectedProjEstimateId: string,
-
+  revision: string,
   /** Can pass an optional handleChange
    * to capture selected 見積 and projEstimateId to process it.
    */
@@ -95,6 +96,7 @@ export const SelectProjEstimates = ({
   const options = projId ? [emptyOption, ...actualOptions, registerNewOption  ] : [registerNewOption];
 
   useDeepCompareEffect(() => {
+    console.log('TRIGGERED', projEstimateRecords);
     if (projEstimateRecords.length && selectedProjEstimateId) {
       handleSelectedValue(selectedProjEstimateId);
     }
