@@ -19,7 +19,6 @@ import { initialValues, TypeOfForm } from '../form';
 export const useReseOnIdsChange = () => {
   const { setValues } = useFormikContext<TypeOfForm>();
   const { setSnackState } = useSnackBar();
-  //const [newInitVals, setNewInitVals] = useState<TypeOfForm>(initialValues);
   const [calculatedEstimate, setCalculatedEstimate] = useState<Awaited<ReturnType<typeof calculateEstimate>>>();
   const [selectedEstimate, setSelectedEstimate] = useState<Estimates.main.SavedData>();
 
@@ -34,8 +33,6 @@ export const useReseOnIdsChange = () => {
     projEstimateId,
     calculated,
   ) => {
-
-    console.log('CALLED!', projEstimateId, selected);
 
     if (!projEstimateId) return;
 
@@ -80,7 +77,6 @@ export const useReseOnIdsChange = () => {
         (acc, { amount }) => acc - +amount, 
         Math.round(calculated?.totalAmountInclTax || 0),
       );
-
 
     setValues(prev => {
 
@@ -144,7 +140,7 @@ export const useReseOnIdsChange = () => {
         });
       });
 
-  }, [setSnackState]);
+  }, [setSnackState, setValues]);
 
 
   useEffect(() => {
@@ -159,7 +155,7 @@ export const useReseOnIdsChange = () => {
       handleChangeProjId(projIdFromURL);
     }
 
-  }, [projEstimateIdFromURL, projIdFromURL, handleChangeProjId]);
+  }, [projEstimateIdFromURL, projIdFromURL, handleChangeProjId, setValues]);
 
   return {
     handleChangeSelectedEstimate,

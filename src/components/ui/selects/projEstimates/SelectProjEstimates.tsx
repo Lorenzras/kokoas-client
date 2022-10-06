@@ -1,5 +1,5 @@
 import {  Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateParams } from '../../../../helpers/url';
 import { pages } from '../../../../pages/Router';
@@ -36,7 +36,6 @@ export const SelectProjEstimates = ({
   /**
    * リファレンス安定しないhandleChangeが渡されても、対応する。
    */
-  const refHandleChange = useRef(handleChange);
 
   const emptyOption: OptionNode = useMemo(() =>  ({
     value: '',
@@ -82,10 +81,10 @@ export const SelectProjEstimates = ({
   const handleSelectedValue = async (selectedValue: string) => {
     
     const selectedRecord = projEstimateRecords
-      .find(({ $id }) => $id.value === selectedProjEstimateId);
+      .find(({ $id }) => $id.value === selectedValue);
     const calculated = selectedRecord ? await calculateEstimateRecord(selectedRecord) : Object.create(null);
 
-    refHandleChange.current?.(
+    handleChange?.(
       selectedRecord,
       selectedValue,
       calculated,

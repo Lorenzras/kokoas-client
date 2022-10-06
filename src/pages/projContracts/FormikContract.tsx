@@ -7,13 +7,6 @@ import { useSubmitContractInfo } from './hooks/useSubmitContractInfo';
 
 export const FormikContract = () => {
 
-  /*   const {
-    newInitVals,
-    handleChangeSelectedEstimate,
-    calculatedEstimate,
-    handleChangeProjId,
-  } = useReseOnIdsChange();
- */
   const { onSubmit } = useSubmitContractInfo();
 
   return (
