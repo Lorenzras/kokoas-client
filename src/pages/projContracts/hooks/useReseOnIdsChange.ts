@@ -17,7 +17,7 @@ import { initialValues, TypeOfForm } from '../form';
  * @returns {object} obj.handleChangeEstimate 選択の変更際の関数
  */
 export const useReseOnIdsChange = () => {
-  const { setValues } = useFormikContext<TypeOfForm>();
+  const { setValues, setTouched } = useFormikContext<TypeOfForm>();
   const { setSnackState } = useSnackBar();
   const [calculatedEstimate, setCalculatedEstimate] = useState<Awaited<ReturnType<typeof calculateEstimate>>>();
   const [selectedEstimate, setSelectedEstimate] = useState<Estimates.main.SavedData>();
@@ -25,20 +25,15 @@ export const useReseOnIdsChange = () => {
   const projIdFromURL = getParam('projId');
   const projEstimateIdFromURL = getParam('projEstimateId');
 
-
-
-
+  /* 見積番号 */
   const handleChangeSelectedEstimate : ComponentProps<typeof SelectProjEstimates>['handleChange'] = (
     selected,
     projEstimateId,
     calculated,
   ) => {
-
+    
     if (!projEstimateId) return;
 
-    /* Updated calculated estimates */
-    setCalculatedEstimate(calculated);
-    setSelectedEstimate(selected);
 
     const {
       envStatus,
@@ -108,11 +103,16 @@ export const useReseOnIdsChange = () => {
       });
     });
 
-    if (!projEstimateId) setSelectedEstimate(undefined);
+    /* Updated calculated estimates */
+    setCalculatedEstimate(calculated);
+    setSelectedEstimate(selected);
+    setTouched({});
+    
+
 
   };
 
-
+  /* 工事番号 */
   const handleChangeProjId = useCallback((projId: string) => {
 
     if (!projId) {

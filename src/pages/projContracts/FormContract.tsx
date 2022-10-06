@@ -13,13 +13,14 @@ import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
 import { ContractFormActions } from './parts/ContractFormActions';
 import { ProjectSchedules } from './parts/projSchedules/ProjectSchedules';
 import { useReseOnIdsChange } from './hooks';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 
 export const FormContract = () => {
 
-  const { values, isSubmitting, dirty, touched, errors } = useFormikContext<TypeOfForm>();
+  const { values, isSubmitting, dirty, touched } = useFormikContext<TypeOfForm>();
 
-  const { projEstimateId, projId, projName, remainingAmt } = values;
+  const { projEstimateId, projId, projName } = values;
 
   const {
     calculatedEstimate,
@@ -31,6 +32,11 @@ export const FormContract = () => {
 
   /* 本当に小数点切り捨ていいか、要確認 */
   const roundedTotalAmt = Math.round(totalAmountInclTax ?? 0);
+
+  useDeepCompareEffect(() => {
+    console.log('FUCKING CHANGED!', values);
+  }, [values]);
+  console.log(touched, dirty);
 
   return (
     <Form noValidate>

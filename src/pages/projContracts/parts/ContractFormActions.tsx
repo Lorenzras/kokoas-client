@@ -16,20 +16,24 @@ export const ContractFormActions = () => {
     isSubmitting,
     isValidating,
     isValid,
-    dirty,
     errors,
+    touched,
   } = useFormikContext<TypeOfForm>();
 
   const handleSubmit = async (submitMethod: TypeOfForm['submitMethod']) => {
-
-    if (dirty) {
+   
+    if (isEmpty(touched)) {
+      // 初期または保存後、フォームが触らなかったら、保存させない。
+      if (submitMethod === 'normal') {
+        setSnackState({
+          open: true,
+          severity: 'info',
+          message: 'フォームに変更がありません。',
+        });
+   
+      }
+    } else {
       await submitForm();
-    } else if (submitMethod === 'normal') {
-      setSnackState({
-        open: true,
-        severity: 'info',
-        message: 'フォームに変更がありません。',
-      });
     }
 
     if (submitMethod === 'contract' && isEmpty(errors)) {
