@@ -1,4 +1,5 @@
 import { parseISO } from 'date-fns';
+import { useFormikContext } from 'formik';
 import { ComponentProps, useCallback, useEffect, useState } from 'react';
 import { calculateEstimate } from '../../../api/others/calculateEstimate';
 import { SelectProjEstimates } from '../../../components/ui/selects';
@@ -16,8 +17,9 @@ import { initialValues, TypeOfForm } from '../form';
  * @returns {object} obj.handleChangeEstimate 選択の変更際の関数
  */
 export const useReseOnIdsChange = () => {
+  const { setValues } = useFormikContext<TypeOfForm>();
   const { setSnackState } = useSnackBar();
-  const [newInitVals, setNewInitVals] = useState<TypeOfForm>(initialValues);
+  //const [newInitVals, setNewInitVals] = useState<TypeOfForm>(initialValues);
   const [calculatedEstimate, setCalculatedEstimate] = useState<Awaited<ReturnType<typeof calculateEstimate>>>();
   const [selectedEstimate, setSelectedEstimate] = useState<Estimates.main.SavedData>();
 
@@ -80,7 +82,7 @@ export const useReseOnIdsChange = () => {
       );
 
 
-    setNewInitVals(prev => {
+    setValues(prev => {
 
       return ({
         ...prev,
@@ -118,14 +120,14 @@ export const useReseOnIdsChange = () => {
   const handleChangeProjId = useCallback((projId: string) => {
 
     if (!projId) {
-      setNewInitVals(initialValues);
+      setValues(initialValues);
       return;
     }
 
     getProjDataById(projId)
       .then((formData) => {
      
-        setNewInitVals(prev => {
+        setValues(prev => {
           // Typescript do now throw error on {...prev, formData}
           // So I intermediately declare it here.
           // Typings might need improvment ~ Ras 2022.10.15
@@ -147,7 +149,7 @@ export const useReseOnIdsChange = () => {
 
   useEffect(() => {
 
-    setNewInitVals(prev => ({
+    setValues(prev => ({
       ...prev,
       projEstimateId: projEstimateIdFromURL ?? '',
       projId: projIdFromURL ?? '',
@@ -159,16 +161,9 @@ export const useReseOnIdsChange = () => {
 
   }, [projEstimateIdFromURL, projIdFromURL, handleChangeProjId]);
 
-
-
-
-
-
-
   return {
     handleChangeSelectedEstimate,
     handleChangeProjId,
-    newInitVals,
     calculatedEstimate,
     selectedEstimate,
   };

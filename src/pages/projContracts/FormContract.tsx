@@ -10,24 +10,22 @@ import { EmptyBox } from '../../components/ui/information/EmptyBox';
 import { SelectProjEstimates } from '../../components/ui/selects';
 import { PaymentSchedule } from './parts/paymentSchedule/PaymentSchedule';
 import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
-import { ComponentProps } from 'react';
-import { calculateEstimate } from '../../api/others/calculateEstimate';
 import { ContractFormActions } from './parts/ContractFormActions';
 import { ProjectSchedules } from './parts/projSchedules/ProjectSchedules';
+import { useReseOnIdsChange } from './hooks';
 
-export const FormContract = ({
-  handleChangeSelectedEstimate,
-  calculatedEstimate,
-  handleChangeProjId,
-}: {
-  handleChangeSelectedEstimate: ComponentProps<typeof SelectProjEstimates>['handleChange'],
-  calculatedEstimate?: Awaited<ReturnType<typeof calculateEstimate>>
-  handleChangeProjId?: (projdId : string) => void
-}) => {
+
+export const FormContract = () => {
 
   const { values, isSubmitting, dirty, touched, errors } = useFormikContext<TypeOfForm>();
 
   const { projEstimateId, projId, projName, remainingAmt } = values;
+
+  const {
+    calculatedEstimate,
+    handleChangeProjId,
+    handleChangeSelectedEstimate,
+  } = useReseOnIdsChange();
 
   const { totalAmountInclTax } = calculatedEstimate ?? {};
 
