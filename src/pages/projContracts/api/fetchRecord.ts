@@ -28,7 +28,6 @@ export const getFormDataById = async (projId: string) => {
     custGroupId,
     signMethod,
     $revision,
-    contractPrice,
     store,
     agents: projOfficers,
     postal: pPostal,
@@ -79,7 +78,6 @@ export const getFormDataById = async (projId: string) => {
 
     projEstimateRevision: $revision.value,
     signMethod: signMethod.value as TSignMethod,
-    contractPrice: +contractPrice.value ?? 0,
   };
 
   return result;

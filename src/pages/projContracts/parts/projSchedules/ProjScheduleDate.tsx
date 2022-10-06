@@ -1,16 +1,20 @@
 import { TextField } from '@mui/material';
 import { useField } from 'formik';
+import { ComponentProps } from 'react';
 import { JADatePicker } from '../../../../components/ui/datetimepickers/JADatePicker';
-import { getPayFieldNameByIdx } from '../../form';
+import { KeyOfForm } from '../../form';
 
-export const PaymentFieldDate = ({
-  disabled,
-  idx,
+
+export const ProjScheduleDate = ({
+  fieldName,
+  variant = 'standard',
+  label,
 } : {
-  disabled: boolean,
-  idx: number
+  fieldName: KeyOfForm,
+  variant?: ComponentProps<typeof TextField>['variant'],
+  label?: string
 }) => {
-  const [field, meta, helpers] = useField(getPayFieldNameByIdx('payDate', idx));
+  const [field, meta, helpers] = useField(fieldName);
   const { value, name } = field;
   const { error, touched } = meta;
   const { setValue, setTouched } = helpers;
@@ -19,7 +23,6 @@ export const PaymentFieldDate = ({
 
   return (
     <JADatePicker
-      disabled={disabled}
       /* Need to use null as empty string wont work when clearing the field.
       This is different with other fields where they
       become uncontrolled component when value becomes null. ~ ras 2022.10.03 */
@@ -30,17 +33,17 @@ export const PaymentFieldDate = ({
         setValue(v ?? '', true);
         setTouched(true);
       }}
-      InputProps={{
-        label: 'hello',
-      }}
       renderInput={(params) =>(
         <TextField
           {...params}
           name={name}
-          onBlur={() => setTouched(true, true)}
-          variant={'standard'}
+          label={label}
+          onBlur={() => {
+            setTouched(true);
+          }}
+          variant={variant}
           error={isShowError}
-          helperText={isShowError ? error : ''}
+          helperText={isShowError ? error : ' '}
         />)}
     />
   );

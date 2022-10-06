@@ -8,7 +8,6 @@ export const getProjDataById = async (
   const {
     projName,
     custGroupId,
-    $revision,
     store,
     agents: projOfficers,
     postal: pPostal,
@@ -57,8 +56,6 @@ export const getProjDataById = async (
     constAg: constAg,
 
     projAddress: `〒${pPostal.value} ${pAddress1.value}${pAddress2.value}`,
-
-    projEstimateRevision: $revision.value,
 
   };
 

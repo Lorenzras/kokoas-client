@@ -8,6 +8,13 @@ const convertToKintone = (
     hasRefund,
     refundAmt,
     projEstimateRevision,
+    startDate,
+    startDaysAfterContract,
+    finishDate,
+    finishDaysAfterContract,
+    completeDate,
+    payMethod,
+    payDestination,
   }: TypeOfForm,
 ) => {
 
@@ -44,6 +51,14 @@ const convertToKintone = (
       type: '__REVISION__',
       value: projEstimateRevision,
     },
+
+    startDate: { value: toKintoneDateStr(startDate) },
+    startDaysAfterContract:{ value: startDaysAfterContract.toString() },
+    finishDate:{ value: toKintoneDateStr(finishDate) },
+    finishDaysAfterContract: { value: finishDaysAfterContract.toString() },
+    payDestination: { value: payDestination.toString() },
+    payMethod: { value: payMethod },
+    completeDate: { value: toKintoneDateStr(completeDate) },
 
     updatedById: { value : kintone.getLoginUser().employeeNumber },
     updateDateTime: { value: toKintoneDateStr(new Date(), true) },

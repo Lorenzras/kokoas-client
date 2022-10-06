@@ -1,36 +1,31 @@
-import { Form } from 'formik';
+import { Form, useFormikContext } from 'formik';
 import { MainContainer } from '../../components/ui/containers';
 import { PageSubTitle, PageTitle } from '../../components/ui/labels';
 import { ContractPageShortcuts } from './parts/ContractPageShortcuts';
-import { getFieldName } from './form';
+import { TypeOfForm } from './form';
 import {  Grid } from '@mui/material';
 import { SearchProjField } from './parts/SearchProjField';
 import { ContractInfo } from './parts/contractInfo/ContractInfo';
 import { EmptyBox } from '../../components/ui/information/EmptyBox';
-import {
-  useUpdateProjId,
-} from './hooks';
-
 import { SelectProjEstimates } from '../../components/ui/selects';
 import { PaymentSchedule } from './parts/paymentSchedule/PaymentSchedule';
-import { GridNextDivider } from './parts/GridNextDivider';
 import { ScrollToFieldError } from '../../components/utils/ScrollToFieldError';
-import { ComponentProps } from 'react';
-import { calculateEstimate } from '../../api/others/calculateEstimate';
+import { ContractFormActions } from './parts/ContractFormActions';
+import { ProjectSchedules } from './parts/projSchedules/ProjectSchedules';
+import { useResetOnIdsChange } from './hooks';
 
-export const FormContract = ({
-  handleChangeSelectedEstimate,
-  calculatedEstimate,
-}: {
-  handleChangeSelectedEstimate: ComponentProps<typeof SelectProjEstimates>['handleChange'],
-  calculatedEstimate?: Awaited<ReturnType<typeof calculateEstimate>>
-}) => {
 
-  const {
-    values,
-  } = useUpdateProjId();
+export const FormContract = () => {
+
+  const { values } = useFormikContext<TypeOfForm>();
 
   const { projEstimateId, projId, projName } = values;
+
+  const {
+    calculatedEstimate,
+    handleChangeProjId,
+    handleChangeSelectedEstimate,
+  } = useResetOnIdsChange();
 
   const { totalAmountInclTax } = calculatedEstimate ?? {};
 
@@ -43,32 +38,29 @@ export const FormContract = ({
       <MainContainer justifyContent={'space-between'}>
         <PageTitle label='契約' />
 
-
         <Grid item xs={12} md={4} >
           <SearchProjField
-            label="工事情報の検索"
-            name={getFieldName('projId')}
+            projId={projId}
             projName={projName}
+            handleChange={handleChangeProjId}
           />
         </Grid>
 
-        {/* 見積もり選択フィールド */}
-        <Grid item xs={12}
-          md={8}
+
+        {/* 見積もり選択フィールド
+          Reload field and its options after every submit.
+        */}
+      
+        <Grid item xs={12} md={8}
           lg={6}
         >
           <SelectProjEstimates
             projId={projId}
-            projEstimateId={projEstimateId}
+            selectedProjEstimateId={projEstimateId}
             handleChange={handleChangeSelectedEstimate}
           />
-
         </Grid>
-
-        {/* 契約内容 */}
-        <ContractInfo />
-
-        <GridNextDivider isShow={!!projEstimateId} />
+  
 
         {/* 支払い予定入力 */}
         {!!projEstimateId && (
@@ -78,14 +70,22 @@ export const FormContract = ({
           </>
         )}
 
+        {!!projEstimateId && (
+        <>
+          <PageSubTitle label={'工期'} />
+          <ProjectSchedules />
+        </>
+        )}
 
+        {/* 契約内容 */}
+        <ContractInfo />
 
-        {/* 契約のプレビュー */}
-        {/*         {!!projEstimateId && previewUrl &&
-        <Preview
-          previewUrl={previewUrl}
-          previewLoading={previewLoading}
-        />} */}
+        {!!projEstimateId && (
+          <Grid item xs={12} justifyContent={'center'} >
+            <ContractFormActions />
+          </Grid>
+        )}
+
 
         {!projEstimateId &&
           <Grid item xs={12}>

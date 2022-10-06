@@ -3,6 +3,7 @@ import {
   getFieldName,
   getPayFieldName,
   KeyOfForm,
+  TypeOfForm,
   TypeOfPayFields } from './form';
 
 
@@ -19,9 +20,13 @@ const payAmtValidation  = Yup
       .required('金額を入力してください。'),
   });
 
-const payDateValidation =  Yup
+const dateValidation =  Yup
   .date()
   .typeError('無効な日付です');
+
+const numberValidation = Yup
+  .number()
+  .typeError('数字を入力してください');
 
 
 
@@ -51,7 +56,7 @@ export const validationSchema =  Yup
         .date()
         .when(getPayFieldName('checked'), {
           is: true,
-          then: payDateValidation
+          then: dateValidation
             .notRequired(),
         }),
     }),
@@ -62,5 +67,18 @@ export const validationSchema =  Yup
     .typeError('数字ではないものが入っています。確認してください。')
     .equals([0], '契約合計と請求額が相違しています。'),
 
+  payMethod: Yup.string().required('選択してください。'),
 
+  payDestination : Yup
+    .string()
+    .when(getFieldName('payMethod'), {
+      is: (payMethod: TypeOfForm['payMethod']) => payMethod === '振込',
+      then: Yup.string(),
+    }),
+
+  startDate: dateValidation,
+  finishDate: dateValidation,
+  completeDate: dateValidation,
+  startDaysAfterContract: numberValidation,
+  finishDaysAfterContract: numberValidation,
 });

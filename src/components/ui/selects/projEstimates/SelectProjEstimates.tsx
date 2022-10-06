@@ -1,32 +1,26 @@
-import {  Button } from '@mui/material';
-import { useCallback, useMemo, useRef } from 'react';
+import {  Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FormikSelectAdvanced } from '../FormikSelectAdvanced';
 import { generateParams } from '../../../../helpers/url';
 import { pages } from '../../../../pages/Router';
 import { useEstimateRecords } from '../../../../hooks/';
 import { ItemEstimate } from './ItemEstimate';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { calculateEstimateRecord } from '../../../../api/others/calculateEstimateRecord';
-import { isEmpty } from 'lodash';
 
 export const SelectProjEstimates = ({
   projId,
-  projEstimateId,
-  name = 'projEstimateId',
+  selectedProjEstimateId,
   handleChange,
-  disabled = false,
 }: {
   projId: string,
-  projEstimateId: string,
-  name?: string
-  disabled?: boolean
+  selectedProjEstimateId: string,
   /** Can pass an optional handleChange
    * to capture selected 見積 and projEstimateId to process it.
    */
   handleChange?: (
-    selected?: Estimates.main.SavedData,
     projEstimateId?: string,
+    selected?: Estimates.main.SavedData,
     calculated?: Awaited<ReturnType<typeof calculateEstimateRecord>>
   ) => void
 }) => {
@@ -34,22 +28,8 @@ export const SelectProjEstimates = ({
   const {
     projEstimateRecords,
   } = useEstimateRecords(projId);
-
-
+  
   const navigate = useNavigate();
-
-  /**
-   * 依存配列のために、リファレンスを安定させる。
-   */
-  const refEstimateRecords = useRef(projEstimateRecords);
-  const selectedRecord = useRef<Estimates.main.SavedData | undefined>();
-
-
-
-  /**
-   * リファレンス安定しないhandleChangeが渡されても、対応する。
-   */
-  const refHandleChange = useRef(handleChange);
 
   const emptyOption: OptionNode = useMemo(() =>  ({
     value: '',
@@ -62,7 +42,7 @@ export const SelectProjEstimates = ({
     key: 'new',
     component: (
       <Button
-        onClick={() => navigate(`${pages.projEstimate}?${generateParams({ projId, projEstimateId })}`)}
+        onClick={() => navigate(`${pages.projEstimate}?${generateParams({ projId, projEstimateId: selectedProjEstimateId })}`)}
         variant="text" color={'inherit'}
         fullWidth disableRipple
       >
@@ -74,7 +54,7 @@ export const SelectProjEstimates = ({
    * navigateは依存配列として不安定
    * https://github.com/remix-run/react-router/issues/7634
    * */
-  [projId]);
+  [projId, selectedProjEstimateId]);
 
   /**
    * 本選択肢
@@ -92,45 +72,59 @@ export const SelectProjEstimates = ({
   });
 
   /* 選択された見積レコードと番号をhandleChangeに渡す。 */
-  const handleSelectedValue = useCallback(
-    async (selectedValue: string) => {
-      const calculated = selectedRecord.current ? await calculateEstimateRecord(selectedRecord.current) : Object.create(null);
-      refHandleChange.current?.(
-        selectedRecord.current,
-        selectedValue,
-        calculated,
-      );
+  const handleSelectedValue = async (selectedValue: string) => {
+    
+    const selectedRecord = projEstimateRecords
+      .find(({ $id }) => $id.value === selectedValue);
+    const calculated = selectedRecord ? await calculateEstimateRecord(selectedRecord) : Object.create(null);
 
-    }, [selectedRecord]);
+    handleChange?.(
+      selectedValue,
+      selectedRecord,
+      calculated,
+    );
+
+  };
 
   const options = projId ? [emptyOption, ...actualOptions, registerNewOption  ] : [registerNewOption];
 
   useDeepCompareEffect(() => {
-    refEstimateRecords.current = projEstimateRecords;
-    if (projEstimateRecords.length && projEstimateId) {
-      selectedRecord.current = refEstimateRecords
-        .current
-        .find(({ $id }) => $id.value === projEstimateId);
+   
+    if (projEstimateRecords.length && selectedProjEstimateId) {
+      handleSelectedValue(selectedProjEstimateId);
     }
-  }, [projEstimateRecords || {}, projEstimateId]);
+  }, [projEstimateRecords || {}, selectedProjEstimateId]);
 
-  useDeepCompareEffect(()=>{
-    if (!isEmpty(selectedRecord.current)) {
-      handleSelectedValue(projEstimateId);
-    }
 
-  }, [selectedRecord.current || {}]);
 
   return (
+    <FormControl 
+      fullWidth 
+      disabled={!projId}
+    >
+      <InputLabel>
+        見積選択
+      </InputLabel>
+      <Select
+        variant={'outlined'}
+        label={'見積選択'}
+        value={selectedProjEstimateId || ''}
+        onChange={(e)=>{
+          handleSelectedValue(e.target.value);
+        }}
+      >
+        {options?.map((option) => {
+          const isSelected = option.value === selectedProjEstimateId;
+          return (
+            <MenuItem key={option.key} value={option.value} selected={isSelected}>
+              {option.component}
+            </MenuItem>
+          );
+        })}
 
-    <FormikSelectAdvanced
-      disabled={disabled || !projId}
-      label='見積選択'
-      name={name}
-      selectedValue={projId ? projEstimateId : ''}
-      options={options}
-      helperText={projId ? '' : '工事を選択してください'}
-    />
+      </Select>
+
+    </FormControl>
 
   );
 };

@@ -1,9 +1,7 @@
 import { Autocomplete, TextField, Stack } from '@mui/material';
-import { useField, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { useLazyEffect } from '../../../hooks';
 import { Caption } from '../../../components/ui/typographies';
-import { getFieldName, TypeOfForm } from '../form';
 import { searchProjects } from '../../../api/kintone/projects';
 
 type Opt = {
@@ -12,29 +10,40 @@ type Opt = {
 };
 
 export const SearchProjField = (props: {
-  name: string,
-  label: string,
+  projId: string,
   projName: string,
+  handleChange?: (projId: string) => void
 }) => {
-  const { setStatus, setFieldValue } = useFormikContext<TypeOfForm>();
+
+  const {
+    projName = '',
+    handleChange,
+    projId,
+  } = props;
 
   // User inputed value state.
-  const [inputVal, setInputVal] = useState('');
+  const [inputVal, setInputVal] = useState(projName);
 
   // Selected value state
   const [fieldVal, setFieldVal] = useState<Opt | null>(null);
 
   const [options, setOptions] = useState<Array<Opt>>([]);
 
-  const [field, meta, helpers] = useField(props);
+
   const [isInit, setIsInit] = useState(true);
 
-  const { error, touched } = meta;
+  useEffect(()=>{
+    /*
+      When there is no option but with projName,
+      make a single option.
+    */
+    if (options.length === 0 && projName) {
+      const singleOpt = { projName, id: projId };
+      setOptions([singleOpt]);
+      setFieldVal(singleOpt);
+    }
 
-  const {
-    projName,
-    label,
-  } = props;
+  }, [projName, options.length, projId]);
 
 
   useLazyEffect(()=>{
@@ -60,18 +69,6 @@ export const SearchProjField = (props: {
 
   }, [inputVal], 2000);
 
-  useEffect(()=>{
-    /*
-      When there is no option but with projName,
-      make a single option.
-    */
-    if (options.length === 0 && projName) {
-      const singleOpt = { projName, id: field.value };
-      setOptions([singleOpt]);
-      setFieldVal(singleOpt);
-    }
-
-  }, [field.value, projName, options.length]);
 
   return (
 
@@ -82,20 +79,10 @@ export const SearchProjField = (props: {
         setInputVal(value);
       }}
       onChange={(_, val)=>{
-
-        helpers.setValue(val?.id);
+       
         setFieldVal(val);
+        handleChange?.(val?.id || '');
 
-        if (val) {
-          setStatus('busy' as TFormStatus);
-        } else {
-          // Clear options, and projName when nothing is selected
-          setOptions([]);
-          setFieldValue(getFieldName('projName'), '');
-        }
-
-        // Clear projEstimateId whenever projId changes
-        setFieldValue(getFieldName('projEstimateId'), '');
       }}
       onFocus={()=>setIsInit(false)}
       options={options}
@@ -104,10 +91,7 @@ export const SearchProjField = (props: {
       renderInput={(params) => (
         <TextField
           {...params}
-          name={field.name}
-          label={label}
-          error={Boolean(error && touched)}
-          helperText={error ? error : ''}
+          label={'工事選択'}
         />)}
       renderOption={(p, opt) => {
         const key = `listItem-${opt.id}`;

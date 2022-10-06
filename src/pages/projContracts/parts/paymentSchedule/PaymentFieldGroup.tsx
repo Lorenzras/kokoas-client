@@ -17,19 +17,21 @@ export const PaymentFieldGroup = (
 
 ) => {
   const { setValues, values } = useFormikContext<TypeOfForm>();
-  const [chkField] = useField(getPayFieldNameByIdx('checked', idx));
+  const [chkField, , helpers] = useField(getPayFieldNameByIdx('checked', idx));
   const { remainingAmt } = values;
   const { value: chkValue } = chkField;
+  const { setTouched } = helpers;
 
   const handleChange: ComponentProps<typeof Checkbox>['onChange'] = (_, checked) => {
 
     setValues((prev) =>  {
       const newState = produce(prev, ({ paymentFields: pF }) => {
-        pF[idx].amount = checked ? remainingAmt : 0;
+        pF[idx].amount = checked ? remainingAmt || 0 : 0;
         pF[idx].checked = checked;
       });
       return newState;
     });
+    setTouched(true);
 
   };
 
