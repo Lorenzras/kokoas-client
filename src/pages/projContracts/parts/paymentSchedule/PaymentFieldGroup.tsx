@@ -26,7 +26,7 @@ export const PaymentFieldGroup = (
 
     setValues((prev) =>  {
       const newState = produce(prev, ({ paymentFields: pF }) => {
-        pF[idx].amount = checked ? remainingAmt : 0;
+        pF[idx].amount = checked ? remainingAmt || 0 : 0;
         pF[idx].checked = checked;
       });
       return newState;

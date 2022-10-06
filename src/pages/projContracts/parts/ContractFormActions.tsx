@@ -33,7 +33,6 @@ export const ContractFormActions = () => {
    
       }
     } else {
-      console.log('SUBMITTED!');
       await submitForm();
     }
 

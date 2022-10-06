@@ -1,24 +1,23 @@
 import { Alert, Fade } from '@mui/material';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import {   useRef, useState } from 'react';
 import { useLazyEffect } from '../../../../hooks';
 import { getFieldName, TypeOfForm } from '../../form';
 
 export const RemainingAmountInfo = () => {
-  const { 
-    isValidating,
-  } = useFormikContext<TypeOfForm>();
+
   const [field, meta] = useField<TypeOfForm['remainingAmt']>(getFieldName('remainingAmt'));
   const { value: remainingAmt, name } = field;
   const { error } = meta;
 
-  const [animAmt, setAnimAmt] = useState(remainingAmt);
+  const [animAmt, setAnimAmt] = useState(remainingAmt || 0);
 
-  const oldAmt = useRef(remainingAmt);
+  const oldAmt = useRef(remainingAmt || 0);
 
 
 
   useLazyEffect(()=>{
+    if (remainingAmt === undefined) return;
 
     const oldDiff = remainingAmt - oldAmt.current;
     const interval = 10;
@@ -50,7 +49,7 @@ export const RemainingAmountInfo = () => {
 
   return (
 
-    <Fade in={!isValidating}>
+    <Fade in={remainingAmt !== undefined} timeout={2000}>
       <Alert id={name} severity={!error ? 'success' : 'warning'} >
 
         {!error && '契約合計と請求額が合っています。'}
@@ -63,7 +62,6 @@ export const RemainingAmountInfo = () => {
         </div>)}
       </Alert>
     </Fade>
-
 
   );
 };

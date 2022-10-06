@@ -11,18 +11,16 @@ import { calculateEstimateRecord } from '../../../../api/others/calculateEstimat
 export const SelectProjEstimates = ({
   projId,
   selectedProjEstimateId,
-  revision,
   handleChange,
 }: {
   projId: string,
   selectedProjEstimateId: string,
-  revision: string,
   /** Can pass an optional handleChange
    * to capture selected 見積 and projEstimateId to process it.
    */
   handleChange?: (
-    selected?: Estimates.main.SavedData,
     projEstimateId?: string,
+    selected?: Estimates.main.SavedData,
     calculated?: Awaited<ReturnType<typeof calculateEstimateRecord>>
   ) => void
 }) => {
@@ -30,13 +28,8 @@ export const SelectProjEstimates = ({
   const {
     projEstimateRecords,
   } = useEstimateRecords(projId);
-
-
+  
   const navigate = useNavigate();
-
-  /**
-   * リファレンス安定しないhandleChangeが渡されても、対応する。
-   */
 
   const emptyOption: OptionNode = useMemo(() =>  ({
     value: '',
@@ -61,7 +54,7 @@ export const SelectProjEstimates = ({
    * navigateは依存配列として不安定
    * https://github.com/remix-run/react-router/issues/7634
    * */
-  [projId]);
+  [projId, selectedProjEstimateId]);
 
   /**
    * 本選択肢
@@ -86,8 +79,8 @@ export const SelectProjEstimates = ({
     const calculated = selectedRecord ? await calculateEstimateRecord(selectedRecord) : Object.create(null);
 
     handleChange?.(
-      selectedRecord,
       selectedValue,
+      selectedRecord,
       calculated,
     );
 
@@ -96,7 +89,7 @@ export const SelectProjEstimates = ({
   const options = projId ? [emptyOption, ...actualOptions, registerNewOption  ] : [registerNewOption];
 
   useDeepCompareEffect(() => {
-    console.log('TRIGGERED', projEstimateRecords);
+   
     if (projEstimateRecords.length && selectedProjEstimateId) {
       handleSelectedValue(selectedProjEstimateId);
     }

@@ -1,3 +1,4 @@
+import { fetchEstimatesById } from './../../../api/kintone/estimates/GET';
 import { parseISO } from 'date-fns';
 import { useFormikContext } from 'formik';
 import { ComponentProps, useCallback, useEffect, useState } from 'react';
@@ -7,10 +8,11 @@ import { getParam } from '../../../helpers/url';
 import { useSnackBar } from '../../../hooks';
 import { getProjDataById } from '../api/getProjDataById';
 import { initialValues, TypeOfForm } from '../form';
+import { calculateEstimateRecord } from '../../../api/others/calculateEstimateRecord';
 
 
 /**
- * Wrapper hook to generate contract preview
+ * Wrapper hook for projId and projEstimateId change handlers
  * in a declarative way.
  *
  * @returns {object} obj.selectedEstimate 選択された見積のレコード
@@ -26,14 +28,14 @@ export const useResetOnIdsChange = () => {
   const projEstimateIdFromURL = getParam('projEstimateId');
 
   /* 見積番号 */
-  const handleChangeSelectedEstimate : ComponentProps<typeof SelectProjEstimates>['handleChange'] = (
-    selected,
-    projEstimateId,
-    calculated,
+  const handleChangeSelectedEstimate : ComponentProps<typeof SelectProjEstimates>['handleChange'] = useCallback(async (
+    projEstimateId: string,
   ) => {
     
     if (!projEstimateId) return;
 
+    const selected = await fetchEstimatesById(projEstimateId);
+    const calculated = await calculateEstimateRecord(selected);
 
     const {
       envStatus,
@@ -108,9 +110,10 @@ export const useResetOnIdsChange = () => {
     setSelectedEstimate(selected);
     setTouched({});
     
-
-
-  };
+  }, [
+    setTouched,
+    setValues,
+  ] );
 
   /* 工事番号 */
   const handleChangeProjId = useCallback((projId: string) => {
@@ -143,6 +146,7 @@ export const useResetOnIdsChange = () => {
   }, [setSnackState, setValues]);
 
 
+  /* Check params on render */
   useEffect(() => {
 
     setValues(prev => ({
@@ -151,11 +155,21 @@ export const useResetOnIdsChange = () => {
       projId: projIdFromURL ?? '',
     }));
 
+    if (projEstimateIdFromURL) {
+      handleChangeSelectedEstimate(projEstimateIdFromURL);
+    }
+
     if (projIdFromURL) {
       handleChangeProjId(projIdFromURL);
     }
 
-  }, [projEstimateIdFromURL, projIdFromURL, handleChangeProjId, setValues]);
+  }, [
+    projEstimateIdFromURL, 
+    projIdFromURL, 
+    handleChangeProjId, 
+    setValues,
+    handleChangeSelectedEstimate,
+  ]);
 
   return {
     handleChangeSelectedEstimate,

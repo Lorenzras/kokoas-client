@@ -17,9 +17,9 @@ import { useResetOnIdsChange } from './hooks';
 
 export const FormContract = () => {
 
-  const { values, touched } = useFormikContext<TypeOfForm>();
+  const { values } = useFormikContext<TypeOfForm>();
 
-  const { projEstimateId, projId, projName, projEstimateRevision } = values;
+  const { projEstimateId, projId, projName } = values;
 
   const {
     calculatedEstimate,
@@ -31,8 +31,6 @@ export const FormContract = () => {
 
   /* 本当に小数点切り捨ていいか、要確認 */
   const roundedTotalAmt = Math.round(totalAmountInclTax ?? 0);
-
-  console.log(touched);
 
   return (
     <Form noValidate>
@@ -59,13 +57,10 @@ export const FormContract = () => {
           <SelectProjEstimates
             projId={projId}
             selectedProjEstimateId={projEstimateId}
-            revision={projEstimateRevision}
             handleChange={handleChangeSelectedEstimate}
           />
         </Grid>
-      
-
-
+  
 
         {/* 支払い予定入力 */}
         {!!projEstimateId && (

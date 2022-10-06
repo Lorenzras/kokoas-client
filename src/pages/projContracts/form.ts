@@ -49,7 +49,7 @@ export const initialValues = {
   /* 支払い予定 */
   paymentFields: Array<TypeOfPayFields>(4)
     .fill(initPayFields),
-  remainingAmt: 0,
+  remainingAmt: undefined as number | undefined,
   hasRefund: false,
   refundAmt: '' as number | '',
 
