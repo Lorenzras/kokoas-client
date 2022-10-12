@@ -100,7 +100,7 @@ export const MenuVoidContract = (
       title: '無効にする理由を入力してください。',
       willCloseOnYes: false,
       yesText: '無効にする',
-      noText: 'やっぱやめる',
+      noText: 'キャンセル',
       handleYes: handleSubmitVoidReason,
       content: <ReasonForm
         handleSetReason={(r)=> {
