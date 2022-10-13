@@ -68,7 +68,7 @@ export const MenuVoidContract = (
       setSnackState({
         open: true,
         severity: 'success',
-        message: `無効になりました。エンヴェロープ番号: ${envelopeId}`,
+        message: `無効になりました。エンベロープ番号: ${envelopeId}`,
       });
 
       setValues({
@@ -113,7 +113,7 @@ export const MenuVoidContract = (
 
   const handleVoidContract = () => {
     setDialogState({
-      title: 'エンヴェロープを無効にしますか。',
+      title: 'エンベロープを無効にしますか。',
       cancellable: true,
       willCloseOnYes: false,
       handleYes: handleCaptureVoidReason,
@@ -121,7 +121,7 @@ export const MenuVoidContract = (
         severity='warning'
         message={
           <>
-            エンベロープを無効にすると、ココアスで契約のステースは「下書き」に戻り、受信者はそのエンベロープを表示したり署名したりできなくなります。
+            エンベロープを無効にすると、受信者はそのエンベロープを表示したり署名したりできなくなります。
             <Button fullWidth target="_blank" href='https://support.docusign.com/s/articles/How-do-I-void-or-cancel-an-envelope?language=ja&rsc_301'>
               無効化についてもっと知りたい
             </Button>
