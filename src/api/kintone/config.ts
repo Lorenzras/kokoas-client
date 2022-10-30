@@ -43,5 +43,3 @@ export enum APPIDS {
 export const KintoneClient = new KintoneRestAPIClient(options);
 
 export const KintoneRecord = KintoneClient.record;
-
-export default KintoneClient;
